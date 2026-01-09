@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sss.equipment.dto.DetailListViewDto;
 import jp.co.sss.equipment.mapper.ReturnMapper;
@@ -28,8 +29,13 @@ public class ReturnService {
 	/**
 	 * 返却時の処理（貸出可否を１に変更）
 	 */
+	@Transactional
 	public void returnEquipment(List<Integer> returnList) {
-		//returnMapper.rentFlagUpdate(returnList);
-		returnMapper.stockDataUpdate(returnList);
+		//返却処理(返却日、最終確認日の更新)
+		returnMapper.stockDataUpdate(returnList);	
+		//返却されたシリアルナンバーを貸出可能にする
+		for(Integer id : returnList) { //新規登録の為一件ずつforで回す
+			returnMapper.insertRebornStock(id);
+		}
 	}
 }
