@@ -19,10 +19,12 @@
 		confirmedDate,
 		remarks AS remarks,
 		equipment_id AS equipmentId,
-		staff_no AS staffNo
+		staff_no
+		AS staffNo
 		FROM equip_detail_view
 		WHERE
-		equipment_name LIKE CONCAT('%', #{name}, '%')
+		equipment_name LIKE CONCAT('%',
+		#{name}, '%')
 		<!-- nameはHTMLから検索したい値をmapper経由でxmlに渡して対象を検索する -->
 		<!-- DBのequip_detail_viewを参照する -->
 	</select>
@@ -36,35 +38,42 @@
 		WHERE equipment_name LIKE CONCAT('%', #{name}, '%')
 	</select>
 
-<!--返却画面表示の場合  -->
+	<!--返却画面表示の場合 -->
 	<select id="returnFind"
 		resultType="jp.co.sss.equipment.dto.DetailListViewDto">
 		SELECT
 		equipment_name AS equipmentName,
-		parent_stock_code AS parentStockCode,
+		parent_stock_code AS
+		parentStockCode,
 		staff_name AS staffName,
 		rent_flg AS rentFlg,
 		start_date AS startDate,
 		limit_date AS limitDate,
-		confirmed_date AS confirmedDate,
+		confirmed_date AS
+		confirmedDate,
 		remarks AS remarks
 		FROM equip_detail_view
-		WHERE equipment_name LIKE CONCAT('%', #{name}, '%')
+		WHERE
+		equipment_name LIKE CONCAT('%', #{name}, '%')
 		AND rent_flg = '貸出中'
 	</select>
-	
-	<!--貸出画面表示の場合  -->
+
+	<!--貸出画面表示の場合 -->
 	<select id="borrowingFind"
 		resultType="jp.co.sss.equipment.dto.DetailListViewDto">
 		SELECT
 		equipment_name AS equipmentName,
-		parent_stock_code AS parentStockCode,
+		parent_stock_code AS
+		parentStockCode,
 		staff_name AS staffName,
 		rent_flg AS rentFlg,
 		start_date AS startDate,
 		limit_date AS limitDate,
-		confirmed_date AS confirmedDate,
-		remarks AS remarks
+		confirmed_date AS
+		confirmedDate,
+		remarks AS remarks,
+		equipment_id AS equipmentId,
+		staff_no AS staffNo
 		FROM equip_detail_view
 		WHERE equipment_name LIKE CONCAT('%', #{name}, '%')
 		AND rent_flg = '可'
