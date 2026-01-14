@@ -23,25 +23,33 @@
 			</tr>
 
 			<tr th:each="item : ${itemDetail}">
-				<td th:text="${item.parentStockCode}"></td>
-				<td>
-					<select th:name="'staffNoMap[' + ${item.equipmentId} + ']'">
-						<option value="">選択してください</option>
-						<option th:each="staff : ${staffName}" th:value="${staff.staffNo}" th:text="${staff.name}"
-							th:selected="${staff.name == item.staffName}">
-						</option>
-					</select>
-				</td>
-				<td>
-					<input type="date" th:name="'startDateMap[' + ${item.equipmentId} + ']'" th:value="${today}">
-				</td>
-				<td>
-					<input type="date" th:name="'limitDateMap[' + ${item.equipmentId} + ']'" th:value="${defaultLimit}">
-				</td>
-				<td th:text="${item.remarks}"></td>
-				<td>
-					<input type="checkbox" name="equipmentIdList" th:value="${item.equipmentId}">
-				</td>
+			    <td th:text="${item.parentStockCode}"></td>
+
+			    <td>
+			        <select name="staffNoList">
+			            <option value="">選択してください</option>
+			            <option th:each="staff : ${staffName}"
+			                    th:value="${staff.staffNo}"
+			                    th:text="${staff.name}">
+			            </option>
+			        </select>
+			    </td>
+
+			    <td>
+			        <input type="date" name="startDateList" th:value="${today}">
+			    </td>
+
+			    <td>
+			        <input type="date" name="limitDateList" th:value="${defaultLimit}">
+			    </td>
+
+			    <td th:text="${item.remarks}"></td>
+
+			    <td>
+			        <input type="checkbox"
+			               name="equipmentIdList"
+			               th:value="${item.equipmentId}">
+			    </td>
 			</tr>
 		</table>
 		<button type="submit">貸出</button>
