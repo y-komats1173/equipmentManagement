@@ -1,5 +1,6 @@
 package jp.co.sss.equipment.mapper;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -18,4 +19,11 @@ public interface BorrowingMapper {
 		
 		//貸出画面に表示させる使用者の取得
 		List<StaffData> staffFind();
+		
+		void borrowingUpdate(
+				@Param("id") Integer id,
+				@Param("staffNo") Integer staffNo,
+				@Param("startDate") LocalDate startDate,
+				@Param("limitDate") LocalDate limitDate
+			);
 }
