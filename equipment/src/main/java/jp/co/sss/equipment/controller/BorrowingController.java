@@ -99,7 +99,12 @@ public class BorrowingController {
 			        staffNoList,
 			        startDateList,
 			        limitDateList);
-			}
+			}else {
+		        // チェック入れ忘れ → 入力内容を保持させる
+		        redirectAttributes.addFlashAttribute("staffNoList", staffNoList);
+		        redirectAttributes.addFlashAttribute("startDateList", startDateList);
+		        redirectAttributes.addFlashAttribute("limitDateList", limitDateList);
+		    }
 		List<DetailListViewDto> detailNameList = indexService.detailFind(name);
 		if (!detailNameList.isEmpty()) { //備品名の取得
 			redirectAttributes.addFlashAttribute("detailName", detailNameList.get(0));
