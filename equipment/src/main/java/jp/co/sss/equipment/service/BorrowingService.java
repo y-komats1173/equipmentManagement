@@ -41,63 +41,42 @@ public class BorrowingService {
 	/**
 	 * 貸出更新
 	 */
-	//	@Transactional
-	//	public void borrowingEquipment(
-	//	    List<Integer> equipmentIdList,
-	//	    List<Integer> staffNoList,
-	//	    List<LocalDate> startDateList,
-	//	    List<LocalDate> limitDateList
-	//	) {
-	//	    for (int i = 0; i < equipmentIdList.size(); i++) {
-	//
-	//	        LocalDate start = startDateList.get(i);
-	//	        LocalDate limit = limitDateList.get(i);
-	//
-	//	        // 未入力は処理しない
-	//	        if (start == null || limit == null) {
-	//	            continue;
-	//	        }
-	//
-	//	        // 開始日 <= 返却日
-	//	        if (!start.isAfter(limit)) {
-	//	            borrowingMapper.borrowingUpdate(
-	//	                equipmentIdList.get(i),
-	//	                staffNoList.get(i),
-	//	                start,
-	//	                limit
-	//	            );
-	//	        }
-	//	    }
-	//	}
-
 	@Transactional
 	public void borrowingEquipment(
-	        List<Integer> equipmentIdList,
-	        Map<String, String> staffNoMap,
-	        Map<String, String> startDateMap,
-	        Map<String, String> limitDateMap) {
+	        List<Integer> equipmentIdList,  //更新対象の備品id
+	        Map<String, String> staffNoMap, //備品idとスタッフ名
+	        Map<String, String> startDateMap, //備品idと貸出日
+	        Map<String, String> limitDateMap  //備品idと返却期限
+	        ) {
 
-	    for (Integer id : equipmentIdList) {
-
-	        String staffKey = "staffNoMap[" + id + "]";
+	    for (Integer id : equipmentIdList) { //チェックされた数だけ１件ずつ処理を行う　
+	    	
+	    	// 画面のこの行(id)に対応する入力値を取得するためのキーを作る
+	        String staffKey = "staffNoMap[" + id + "]";  
 	        String startKey = "startDateMap[" + id + "]";
 	        String limitKey = "limitDateMap[" + id + "]";
-
+	        
+	        // 備品IDに対応する入力値をMapから取得
 	        String staffStr = staffNoMap.get(staffKey);
 	        String startStr = startDateMap.get(startKey);
 	        String limitStr = limitDateMap.get(limitKey);
-
-	        if (staffStr == null || startStr == null || limitStr == null) {
-	            continue;
-	        }
-
+	        
+	        //未入力がある場合弾く
+	        if (staffStr == null || staffStr.isBlank()
+	        	     || startStr == null || startStr.isBlank()
+	        	     || limitStr == null || limitStr.isBlank()) {
+	        	        continue;
+	        	    }
+	        
+	        //文字列からDate形に型変換
 	        LocalDate start = LocalDate.parse(startStr);
 	        LocalDate limit = LocalDate.parse(limitStr);
 
+	        //貸出日と返却日を比べて返却日が貸出日より前にならないかチェック
 	        if (!start.isAfter(limit)) {
 	            borrowingMapper.borrowingUpdate(
 	                    id,
-	                    Integer.valueOf(staffStr),
+	                    Integer.valueOf(staffStr), //entityがIntegerなのでString型からIntegerに
 	                    start,
 	                    limit
 	            );
