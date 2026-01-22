@@ -17,22 +17,164 @@
 .body {
 	max-width: 1280px;
 	margin: auto;
-	padding:100px;
+	padding: 100px;
 }
 
 .table-buttons {
 	margin-top: 10px;
 	display: flex;
-	flex-direction: row; /* 横並び */
-	justify-content: flex-end; /* 右寄せ */
-	gap: 8px; /* ボタンの余白 */
+	flex-direction: row;
+	/* 横並び */
+	justify-content: flex-end;
+	/* 右寄せ */
+	gap: 8px;
+	/* ボタンの余白 */
 }
 
-.title{
-	background:#fed;
-	color:#321;
-	padding-left:12px;
-	border-left-color:#963; /* 左の枠線の色 */
-	border-left-style:solid; /* 左の枠線の種類 */
-	border-left-width:8px; /* 左の枠線の太さ */
+
+.borrow-table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+/*シリアルナンバー*/
+.col-serial {
+	width: 25%;
+	text-align: center;
+}
+
+/*使用者 */
+.col-user {
+	width: 15%;
+	text-align: center;
+}
+
+/*貸出可否*/
+.col-status {
+	width: 10%;
+	text-align: center;
+}
+
+/*貸出開始日*/
+.col-start {
+	width: 12%;
+	text-align: center;
+}
+
+/*返却予定日*/
+.col-limit {
+	width: 12%;
+	text-align: center;
+}
+
+/*最終所在確認*/
+.col-check-location {
+	width: 13%;
+	text-align: center;
+}
+
+/*備考*/
+.col-remarks {
+	width: 28%;
+	text-align: left;
+}
+
+/*チェックボックス*/
+.col-check {
+	width: 8%;
+	text-align: center;
+}
+
+.borrow-table th,
+.borrow-table td {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.borrow-table td.col-remarks {
+	text-align: left;
+}
+
+.title {
+	background: #fed;
+	color: #321;
+	padding-left: 12px;
+	border-left-color: #963;
+	/* 左の枠線の色 */
+	border-left-style: solid;
+	/* 左の枠線の種類 */
+	border-left-width: 8px;
+	/* 左の枠線の太さ */
+}
+
+/* 貸出ボタンのスタイル */
+.borrowingButton {
+	background: rgb(20, 115, 255);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80%;
+	max-width: 100px;
+	height: 30px;
+	padding: 6px 14px;
+	font-family: sans-serif;
+	font-size: 16px;
+	color: rgb(0, 0, 0);
+	text-align: center;
+	overflow-wrap: anywhere;
+	border: 2px solid rgb(94, 94, 94);
+}
+
+/* 返却ボタンのスタイル */
+.returnButton {
+	background: rgb(255, 0, 0);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80%;
+	max-width: 100px;
+	height: 30px;
+	padding: 6px 14px;
+	font-family: sans-serif;
+	font-size: 16px;
+	color: rgb(0, 0, 0);
+	text-align: center;
+	overflow-wrap: anywhere;
+	border: 2px solid rgb(94, 94, 94);
+}
+
+/* 一覧戻るボタンのスタイル */
+.indexReturnButton {
+	background: rgb(3, 187, 0);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80%;
+	max-width: 150px;
+	height: 30px;
+	padding: 6px 14px;
+	font-family: sans-serif;
+	font-size: 16px;
+	color: rgb(0, 0, 0);
+	text-align: center;
+	overflow-wrap: anywhere;
+	border: 2px solid rgb(94, 94, 94);
+}
+
+/*戻るボタンのスタイル */
+.returnToTopButton {
+	background: rgb(3, 187, 0);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80%;
+	max-width: 100px;
+	height: 30px;
+	padding: 6px 14px;
+	font-family: sans-serif;
+	font-size: 16px;
+	color: rgb(0, 0, 0);
+	text-align: center;
+	overflow-wrap: anywhere;
+	border: 2px solid rgb(94, 94, 94);
 }
