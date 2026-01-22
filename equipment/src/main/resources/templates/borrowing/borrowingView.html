@@ -11,7 +11,14 @@
 	<h>備品貸出画面</h>
 	<br>
 	<a th:text="${detailName.equipmentName}"></a>
-	<div class="fc_red" th:text="${errorMessage}"></div>
+
+	<div class="fc_red" th:if="${errorMessages}">
+		<ul>
+			<li th:each="msg : ${errorMessages}" th:text="${msg}"></li>
+		</ul>
+	</div>
+
+	<p th:if="${updateMessage}" th:text="${updateMessage}"></p>
 
 	<!-- 入れ子フォームを避けるため、テーブルとボタンを .table-wrapper に入れる -->
 	<div class="table-wrapper">
@@ -20,7 +27,16 @@
 		<form id="borrowForm" th:action="@{/borrowingProcess}" method="post"
 			th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">
 			<input type="hidden" name="name" th:value="${detailName.equipmentName}">
-			<table border="1">
+			<table border="1" class="borrow-table">
+				<colgroup>
+					<col class="col-serial">
+					<col class="col-user">
+					<col class="col-start">
+					<col class="col-limit">
+					<col class="col-remarks">
+					<col class="col-check">
+				</colgroup>
+
 				<tr class="front_label_color">
 					<th>シリアルナンバー</th>
 					<th>使用者</th>
@@ -31,34 +47,31 @@
 				</tr>
 
 				<tr th:each="item, stat : ${itemDetail}">
-					<td th:text="${item.parentStockCode}"></td>
+					<td class="col-serial">
+						<span th:text="${item.parentStockCode}"></span>
+						<input type="hidden" th:name="|serialMap[${item.equipmentId}]|"
+							th:value="${item.parentStockCode}">
+					</td>
 
-					<td>
-
-						<!--<select name="staffNoList">（List使用時）-->
+					<td class="col-user">
 						<select th:name="|staffNoMap[${item.equipmentId}]|">
 							<option value="">選択してください</option>
-							<option th:each="staff : ${staffName}" th:value="${staff.staffNo}" th:text="${staff.name}"
-								th:selected="${staffNoList != null and staffNoList[stat.index] == staff.staffNo}">
+							<option th:each="staff : ${staffName}" th:value="${staff.staffNo}" th:text="${staff.name}">
 							</option>
 						</select>
 					</td>
 
-					<td>
-						<!--(List使用時)<input type="date" name="startDateList"
-							th:value="${startDateList != null ? startDateList[stat.index] : today}">-->
+					<td class="col-start">
 						<input type="date" th:name="|startDateMap[${item.equipmentId}]|" th:value="${today}">
 					</td>
 
-					<td>
-						<!--(List使用時)<input type="date" name="limitDateList"
-							th:value="${limitDateList != null ? limitDateList[stat.index] : defaultLimit}">-->
+					<td class="col-limit">
 						<input type="date" th:name="|limitDateMap[${item.equipmentId}]|" th:value="${defaultLimit}">
 					</td>
 
-					<td th:text="${item.remarks}"></td>
+					<td class="col-remarks" th:text="${item.remarks}"></td>
 
-					<td>
+					<td class="col-check">
 						<input type="checkbox" name="equipmentIdList" th:value="${item.equipmentId}">
 					</td>
 				</tr>
@@ -72,8 +85,9 @@
 
 		<!-- ボタンはテーブルの下に配置。form属性でそれぞれのフォームに紐づける -->
 		<div class="table-buttons">
-			<button type="submit" form="borrowForm">貸出</button>
-			<button type="submit" form="backForm">戻る</button>
+			<button class="borrowingButton" type="submit" form="borrowForm"
+				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">貸出</button>
+			<button class="returnToTopButton" type="submit" form="backForm">戻る</button>
 		</div>
 
 		<!-- 貸出できる備品がないとき -->
@@ -82,6 +96,54 @@
 		</p>
 
 	</div>
+
+	<script>
+		//画面を読み込み時に実行
+		document.addEventListener("DOMContentLoaded", function () {
+
+			// 貸出ボタン押下時の処理
+			document.getElementById("borrowForm").addEventListener("submit", function (e) {
+
+				// 今日の日付を取得し、時分秒ミリ秒を0に設定
+				const today = new Date();
+				today.setHours(0, 0, 0, 0);
+
+				// 貸出開始日が本日より前の日付があるかどうかのフラグ
+				let isBeforeToday = false;
+
+				// テーブルの各行をループ処理
+				document.querySelectorAll("tr").forEach(tr => {
+					// チェックボックスが選択されていない行はスキップ
+					const checkbox = tr.querySelector('input[name="equipmentIdList"]');
+					if (!checkbox || !checkbox.checked) return;
+
+					// 貸出開始日の入力フィールドを取得し、値がない場合はスキップ
+					const startInput = tr.querySelector('input[name^="startDateMap"]');
+					if (!startInput || !startInput.value) return;
+
+					// 貸出開始日をDateオブジェクトに変換し、本日より前かどうかをチェック
+					const startDate = new Date(startInput.value);
+
+					// 時分秒ミリ秒を0に設定
+					if (startDate < today) {
+						isBeforeToday = true;
+					}
+				});
+
+				// YES 
+				if (isBeforeToday) {
+					//confirm(はい・いいえ)
+					const result = confirm("貸出開始日が本日より前ですが、更新しますか？");
+
+					if (!result) {
+						e.preventDefault(); // NO
+					}
+				}
+
+			});
+
+		});
+	</script>
 
 
 </body>
