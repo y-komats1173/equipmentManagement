@@ -79,10 +79,12 @@ public class BorrowingController {
 	    BorrowingValidationResult result = borrowingService.validateBorrowing(
 	            equipmentIdList, serialMap, staffNoMap, startDateMap, limitDateMap);
 
+	    // エラーがある場合、リダイレクトしてエラーメッセージを表示
 	    if (!result.getErrorMessages().isEmpty()) {
 	        redirectAttributes.addFlashAttribute("errorMessages", result.getErrorMessages());
 	        redirectAttributes.addFlashAttribute("errorEquipmentIds", result.getErrorEquipmentIds());
 	        redirectAttributes.addFlashAttribute("normalEquipmentIds", result.getNormalEquipmentIds());
+	        redirectAttributes.addFlashAttribute("warningEquipmentIds", result.getWarningEquipmentIds());
 	        // 入力値を保持
 	        redirectAttributes.addFlashAttribute("prevStaffNoMap", staffNoMap);
 	        redirectAttributes.addFlashAttribute("prevStartDateMap", startDateMap);
@@ -96,7 +98,7 @@ public class BorrowingController {
 	    try {
 	        borrowingService.borrowingEquipment(equipmentIdList, staffNoMap, startDateMap, limitDateMap);
 	        redirectAttributes.addFlashAttribute("updateMessage", "貸出処理が完了しました。");
-	    } catch (IllegalStateException e) {
+	    } catch (IllegalStateException e) { 
 	        redirectAttributes.addFlashAttribute("errorMessages", List.of("他のブラウザで更新されました。"));
 	        redirectAttributes.addAttribute("name", name);
 	        return "redirect:/borrowingView";
