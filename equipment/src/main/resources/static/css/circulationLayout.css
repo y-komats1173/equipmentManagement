@@ -15,7 +15,7 @@
 
 
 .body {
-	max-width: 1024px;
+	max-width: 1920px;
 	margin: auto;
 	padding: 100px;
 }
@@ -231,6 +231,15 @@
 .row-normal {
 	background-color: rgb(141, 249, 0);
 	border-left: 5px solid rgb(0, 142, 0);
+}
+
+.row-warning{
+	background-color: rgb(215, 131, 255);
+		border-left: 5px solid rgb(255, 47, 146);
+}
+
+.row-input-not-checked {
+  background-color: #ffd7a8; /* オレンジ系（入力あるのにチェックなし） */
 }
 
 /* 1行の高さで統一して縦スクロール */
