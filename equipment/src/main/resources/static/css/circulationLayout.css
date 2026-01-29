@@ -160,10 +160,9 @@
 /*テーブルのスクロール*/
 .table-wrapper {
 	max-height: 300px;
-	overflow-y: auto;
-	/* 縦スクロール */
-	overflow-x: hidden;
-	/* 横スクロール */
+	overflow-y: auto; /* 縦スクロール */
+	overflow-x: auto; /* 横スクロール */
+	white-space: nowrap; /* 折り返し防止*/
 }
 
 /*貸出返却がない時*/
@@ -195,7 +194,8 @@
 
 /* 貸出一覧テーブル*/
 .borrow-table {
-	width: 100%;
+	width: max-content;
+	min-width: 1200px;
 	border-collapse: collapse;
 }
 
@@ -233,35 +233,55 @@
 	border-left: 5px solid rgb(0, 142, 0);
 }
 
-.row-warning{
+.row-warning {
 	background-color: rgb(215, 131, 255);
-		border-left: 5px solid rgb(255, 47, 146);
+	border-left: 5px solid rgb(255, 47, 146);
 }
 
 .row-input-not-checked {
-  background-color: #ffd7a8; /* オレンジ系（入力あるのにチェックなし） */
+	background-color: #ffd7a8;
+	/* オレンジ系（入力あるのにチェックなし） */
 }
 
 /* 1行の高さで統一して縦スクロール */
 .col-remarks .scroll-inner {
-    padding: 2px 8px;      
-    height: 1.5em;         
-    overflow-y: auto;     
-    overflow-x: hidden;    
-    white-space: normal;   
-    line-height: 1.5;      
+	padding: 2px 8px;
+	height: 1.5em;
+	overflow-y: auto;
+	overflow-x: hidden;
+	white-space: normal;
+	line-height: 1.5;
 }
 
 /* 文字の隙間をリセット */
 .col-remarks .scroll-inner p {
-    margin: 0;
-    word-break: break-all;
+	margin: 0;
+	word-break: break-all;
 }
 
 /* スクロールバー */
 .col-remarks .scroll-inner::-webkit-scrollbar {
-    width: 2px; 
+	width: 2px;
 }
+
 .col-remarks .scroll-inner::-webkit-scrollbar-thumb {
-    background: rgb(0, 0, 0); 
+	background: rgb(0, 0, 0);
+}
+
+/* 左固定：ヘッダー（シリアル） */
+.borrow-table th.col-serial {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  background-color: rgb(26, 11, 134);
+  color: white;
+}
+
+/* 左固定：データ行（シリアル） */
+.borrow-table td.col-serial {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background-color: white;
 }
