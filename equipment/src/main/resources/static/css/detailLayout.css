@@ -42,14 +42,14 @@
 
 /*シリアルナンバーヘッダー*/
 .col-serial-h {
-	width: 13%;
+	width: 10%;
 	text-align: center !important;
 	padding-left: 10px !important;
 }
 
 /*シリアルナンバー*/
 .col-serial {
-	width: 13%;
+	width: 10% !important;
 	text-align: left !important;
 	padding-left: 10px !important;
 	background-color: rgb(255, 255, 255);
@@ -57,7 +57,7 @@
 
 /*使用者 */
 .col-user {
-	width: 13%;
+	width: 11% !important;
 	text-align: left !important;
 	padding-left: 10px !important;
 }
