@@ -8,7 +8,7 @@
 
 <body>
 	<h1>備品登録</h1>
-	<form th:action="@{/equipmentRegistCheck}" method="post" th:object="${equipmentRegistForm}">
+	<form id="registForm" th:action="@{/equipmentRegistCheck}" method="post" th:object="${equipmentRegistForm}">
 
 		<!--カテゴリ-->
 		<div class="form">
@@ -28,6 +28,14 @@
 				<input type="text" th:field="*{equipmentName}">
 			</div>
 		</div>
+		
+		<!--モデル-->
+		<div class="form">
+					<div class="label">モデル</div>
+					<div class="input">
+						<input type="text" th:field="*{model}">
+					</div>
+				</div>
 
 		<!--メーカー-->
 		<div class="form">
@@ -62,6 +70,7 @@
 			<div class="input">
 				<input type="text" th:field="*{remarks}">
 			</div>
+			</div>
 
 			<!--貸出フラグ-->
 			<div class="form">
@@ -75,6 +84,14 @@
 			</div>
 	</form>
 
+	<!--登録ボタン-->
+	<div class="form">
+		<button type="submit" form="registForm">登録確認</button>
+	</div>
+	<!--戻るボタン-->
+	<form th:action="@{/index}" method="get">
+		<button class="indexReturnButton" type="submit">一覧に戻る</button>
+	</form>
 
 </body>
 
