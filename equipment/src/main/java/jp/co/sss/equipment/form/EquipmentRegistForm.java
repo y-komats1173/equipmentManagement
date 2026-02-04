@@ -1,6 +1,7 @@
 package jp.co.sss.equipment.form;
 
-import java.util.Date;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -11,11 +12,17 @@ import lombok.Data;
  */
 @Data
 public class EquipmentRegistForm {
+	
 	/**カテゴリID*/
 	private Integer categoryId;
 	
 	/**備品名称*/
+	@NotBlank
+    @Size(min = 1, max = 16)
 	private String equipmentName;
+	
+	/*型番*/
+	private String model;
 	
 	/**メーカー*/
 	private String maker;
@@ -24,7 +31,7 @@ public class EquipmentRegistForm {
 	private String ownershipType;
 	
 	/**リース返却日*/
-	private Date leaseReturnDate;
+	private String leaseReturnDate;
 	
 	/**備考*/
 	private String remarks;
