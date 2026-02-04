@@ -1,0 +1,30 @@
+package jp.co.sss.equipment.util;
+
+import jp.co.sss.equipment.entity.StockMaster;
+import jp.co.sss.equipment.form.EquipmentRegistForm;
+
+/**
+ * Beanコピー用クラス
+ * 
+ * @author 小松原　2025/12/04
+ *
+ */
+public class BeanCopy {
+
+	/**
+	 * Formクラスの各フィールドの値をエンティティ(StockTypeMaster)にコピー
+	 *
+	 * @param form
+	 *            入力された備品分類情報
+	 * @return エンティティ
+	 */
+	public static StockMaster copyFormToStockMaster(EquipmentRegistForm equipmentRegistForm) {
+		StockMaster entity = new StockMaster();
+		
+		entity.setStockType(equipmentRegistForm.getCategoryId());
+		entity.setName(equipmentRegistForm.getEquipmentName());
+		
+		
+		return entity;
+	}
+}
