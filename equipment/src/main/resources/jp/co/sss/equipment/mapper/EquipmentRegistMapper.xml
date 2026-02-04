@@ -4,15 +4,29 @@
 
 <mapper
 	namespace="jp.co.sss.equipment.mapper.EquipmentRegistMapper">
+	<!-- 在庫種別マスタ全件取得 -->
 	<select id="categoryFind"
 		resultType="jp.co.sss.equipment.entity.StockTypeMaster">
 		SELECT
 		id AS id,
 		stock_type AS stockType,
 		name AS name,
-		del AS del
+		del AS
+		del
 		FROM stock_type_master
 	</select>
 
-
+	<!-- カテゴリ名検索 -->
+	<select id="findByCategoryId"
+		resultType="jp.co.sss.equipment.entity.StockTypeMaster">
+		SELECT
+		id AS id,
+		stock_type AS stockType,
+		name AS name,
+		del AS
+		del
+		FROM stock_type_master
+		WHERE
+		stock_type = #{categoryId}
+	</select>
 </mapper>
