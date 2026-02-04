@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jp.co.sss.equipment.entity.StockMaster;
 import jp.co.sss.equipment.entity.StockTypeMaster;
+import jp.co.sss.equipment.form.EquipmentRegistForm;
 import jp.co.sss.equipment.mapper.EquipmentRegistMapper;
+import jp.co.sss.equipment.util.BeanCopy;
 
 /**
  * 備品登録サービス
@@ -23,5 +26,21 @@ public class EquipmentRegistService {
  */
 	public List<StockTypeMaster> categoryFind() {	
 		return equipmentRegistMapper.categoryFind();
+	}
+	/*
+	 * 備品登録確認時に使用するDB操作
+	 * カテゴリIDからカテゴリ情報を取得
+	 */
+	public StockTypeMaster categoryFindCheck(Integer categoryId) {
+		return equipmentRegistMapper.findByCategoryId(categoryId);
+	}
+	
+	/*
+	 * 備品登録挿入
+	 */
+	public void equipmentRegistInsert(EquipmentRegistForm registform) {
+	    StockMaster stockMaster = BeanCopy.copyFormToStockMaster(registform);
+	    System.out.println("サービスの中"+stockMaster);
+	    equipmentRegistMapper.equipmentRegistInsert(stockMaster);
 	}
 }
