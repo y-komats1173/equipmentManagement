@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import jp.co.sss.equipment.entity.StockData;
 import jp.co.sss.equipment.entity.StockMaster;
 import jp.co.sss.equipment.entity.StockTypeMaster;
 import jp.co.sss.equipment.form.EquipmentRegistForm;
@@ -20,13 +22,15 @@ import jp.co.sss.equipment.util.BeanCopy;
 public class EquipmentRegistService {
 	@Autowired
 	EquipmentRegistMapper equipmentRegistMapper;
-/*
- * 備品登録時に使用するDB操作
- * カテゴリ検索
- */
-	public List<StockTypeMaster> categoryFind() {	
+
+	/*
+	 * 備品登録時に使用するDB操作
+	 * カテゴリ検索
+	 */
+	public List<StockTypeMaster> categoryFind() {
 		return equipmentRegistMapper.categoryFind();
 	}
+
 	/*
 	 * 備品登録確認時に使用するDB操作
 	 * カテゴリIDからカテゴリ情報を取得
@@ -34,13 +38,28 @@ public class EquipmentRegistService {
 	public StockTypeMaster categoryFindCheck(Integer categoryId) {
 		return equipmentRegistMapper.findByCategoryId(categoryId);
 	}
-	
+
 	/*
 	 * 備品登録挿入
 	 */
+	@Transactional
 	public void equipmentRegistInsert(EquipmentRegistForm registform) {
-	    StockMaster stockMaster = BeanCopy.copyFormToStockMaster(registform);
-	    System.out.println("サービスの中"+stockMaster);
-	    equipmentRegistMapper.equipmentRegistInsert(stockMaster);
+		// formからentityへコピー
+		StockMaster stockMaster = BeanCopy.copyFormToStockMaster(registform);
+		// 論理削除フラグを0に設定
+		stockMaster.setDel("0");
+		// 備品登録挿入
+		equipmentRegistMapper.equipmentRegistInsert(stockMaster);
+		// 登録後のIDを使って備品コードを生成・更新
+		String stockCode = "S" + String.format("%09d", stockMaster.getId());
+		stockMaster.setStockCode(stockCode);
+		// 備品登録更新
+		equipmentRegistMapper.equipmentRegistUpdate(stockMaster);
+		//貸出開始処理
+		StockData stockData = new StockData();
+	    stockData.setDel("0");
+		equipmentRegistMapper.insertForId(stockData);
+		 stockData.setStockCode(stockCode);
+		equipmentRegistMapper.equimentBorrowingStartInsert(stockData);
 	}
 }
