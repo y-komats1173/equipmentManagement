@@ -11,6 +11,9 @@ import lombok.Data;
 @Data //getter setterの省略でLombokを使用
 public class StockMaster {
 
+	/*id*/
+	private Integer id;
+	
 	/*シリアルナンバー*/
 	private String stockCode;
 
@@ -27,7 +30,7 @@ public class StockMaster {
 	private Integer stockType;
 
 	/*貸出可否*/
-	private Boolean rentFlg;
+	private String rentFlag;
 	
 	/**追加機能
 	 * 分類　会社所有orリース
@@ -43,6 +46,6 @@ public class StockMaster {
 	private String remarks;
 
 	/*削除フラグ*/
-	private Boolean del;
+	private String del;
 
 }
