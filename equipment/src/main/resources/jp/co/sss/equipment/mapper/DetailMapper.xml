@@ -18,7 +18,7 @@
 		parent_stock_code AS
 		parentStockCode,
 		staff_name AS staffName,
-		rent_flg AS rentFlg,
+		rent_flag AS rentFlag,
 		start_date AS startDate,
 		limit_date AS limitDate,
 		
@@ -60,7 +60,7 @@
 		parent_stock_code AS
 		parentStockCode,
 		staff_name AS staffName,
-		rent_flg AS rentFlg,
+		rent_flag AS rentFlag,
 		start_date AS startDate,
 		limit_date AS limitDate,
 		confirmed_date AS
@@ -69,7 +69,7 @@
 		FROM equip_detail_view
 		WHERE
 		equipment_name LIKE CONCAT('%', #{name}, '%')
-		AND rent_flg = '貸出中'
+		AND rent_flag = '貸出中'
 	</select>
 
 	<!--貸出画面表示の場合 -->
@@ -80,7 +80,7 @@
 		parent_stock_code AS
 		parentStockCode,
 		staff_name AS staffName,
-		rent_flg AS rentFlg,
+		rent_flag AS rentFlag,
 		start_date AS startDate,
 		limit_date AS limitDate,
 		confirmed_date AS
@@ -90,6 +90,6 @@
 		staff_no AS staffNo
 		FROM equip_detail_view
 		WHERE equipment_name LIKE CONCAT('%', #{name}, '%')
-		AND rent_flg = '可'
+		AND rent_flag = '可'
 	</select>
 </mapper>
