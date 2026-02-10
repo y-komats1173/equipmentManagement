@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import jp.co.sss.equipment.entity.StockData;
 import jp.co.sss.equipment.entity.StockMaster;
@@ -12,6 +13,7 @@ import jp.co.sss.equipment.entity.StockTypeMaster;
 import jp.co.sss.equipment.form.EquipmentRegistForm;
 import jp.co.sss.equipment.mapper.EquipmentRegistMapper;
 import jp.co.sss.equipment.util.BeanCopy;
+import jp.co.sss.equipment.util.EquipmentInputCheck;
 
 /**
  * 備品登録サービス
@@ -23,6 +25,8 @@ public class EquipmentRegistService {
 	@Autowired
 	EquipmentRegistMapper equipmentRegistMapper;
 
+	@Autowired
+	EquipmentInputCheck equipmentInputCheck;
 	/*
 	 * 備品登録時に使用するDB操作
 	 * カテゴリ検索
@@ -38,6 +42,17 @@ public class EquipmentRegistService {
 	public StockTypeMaster categoryFindCheck(Integer categoryId) {
 		return equipmentRegistMapper.findByCategoryId(categoryId);
 	}
+	
+	public void registCheck(EquipmentRegistForm form, BindingResult result) {
+
+        // 入力タイプ別チェック（業務ルール）
+		equipmentInputCheck.categoryCheck(form, result);
+
+        // ここでエラーあったら
+        if (result.hasErrors()) {
+            return;
+        }
+    }
 
 	/*
 	 * 備品登録挿入
@@ -57,9 +72,9 @@ public class EquipmentRegistService {
 		equipmentRegistMapper.equipmentRegistUpdate(stockMaster);
 		//貸出開始処理
 		StockData stockData = new StockData();
-	    stockData.setDel("0");
+		stockData.setDel("0");
 		equipmentRegistMapper.insertForId(stockData);
-		 stockData.setStockCode(stockCode);
+		stockData.setStockCode(stockCode);
 		equipmentRegistMapper.equimentBorrowingStartInsert(stockData);
 	}
 }

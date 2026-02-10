@@ -18,6 +18,9 @@ public class StockTypeMaster {
 
 	/*分類名称*/
 	private String name;
+	
+	/*インプットタイプ*/
+	private String inputType;
 
 	/*削除フラグ*/
 	private Boolean del;

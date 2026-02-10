@@ -11,10 +11,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.sss.equipment.entity.StockTypeMaster;
 import jp.co.sss.equipment.form.EquipmentRegistForm;
 import jp.co.sss.equipment.service.EquipmentRegistService;
+import jp.co.sss.equipment.util.EquipmentInputCheck;
 
 /**
  * 備品登録コントローラー
@@ -25,6 +27,10 @@ import jp.co.sss.equipment.service.EquipmentRegistService;
 public class EquipmentRegistController {
 	@Autowired
 	EquipmentRegistService equipmentRegistService;
+
+	@Autowired
+	EquipmentInputCheck equipmentInputCheck;
+
 	/**
 	 * 備品入力画面表示
 	 */
@@ -32,71 +38,82 @@ public class EquipmentRegistController {
 	public String equipmentRegistInput(Model model, @ModelAttribute EquipmentRegistForm form) {
 		//ログイン機能追加後は、セッションチェックを実装
 		//カテゴリの取得
-		List<StockTypeMaster>categoryList = equipmentRegistService.categoryFind();
+		List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
 		for (StockTypeMaster category : categoryList) {
 			System.out.println(category);
 		}
 		model.addAttribute("categoryList", categoryList);
 		return "equipmentRegist/equipmentRegistInput";
 	}
-	
+
 	/**
 	 * 備品登録確認画面
 	 */
 	@PostMapping("/equipmentRegistCheck")
-	public String equipmentRegistCheck(@Valid @ModelAttribute EquipmentRegistForm registform, BindingResult result, Model model) {
-//		if(result.hasErrors()) {
-//			return "equipmentRegist/equipmentRegistInput";
-//		}else {
-			//入力情報の取得
-			StockTypeMaster stockTypeMaster = equipmentRegistService.categoryFindCheck(registform.getCategoryId());
-			model.addAttribute("categoryName", stockTypeMaster.getName());
-			System.out.println(stockTypeMaster.getName()+"カテゴリID:"+registform.getCategoryId());
-			System.out.println(registform.getEquipmentName());
-			System.out.println(registform.getModel());
-			System.out.println(registform.getMaker());
-			System.out.println(registform.getOwnershipType());
-			System.out.println(registform.getLeaseReturnDate());
-			System.out.println(registform.getRemarks());
-			System.out.println(registform.getRentFlag());
-			model.addAttribute("equipmentRegistForm", registform);
-//		}
+	public String equipmentRegistCheck(
+			@Valid @ModelAttribute EquipmentRegistForm registform,
+			BindingResult result,
+			RedirectAttributes redirectAttributes,
+			Model model) {
+		
+		StockTypeMaster stockTypeMaster = null;
+		//カテゴリIDからカテゴリ情報を取得
+		if (registform.getCategoryId() != null) {
+			stockTypeMaster = equipmentRegistService.categoryFindCheck(registform.getCategoryId());
+
+			//入力タイプをフォームにセット
+			registform.setInputType(stockTypeMaster.getInputType());
+		}
+
+		//入力チェック
+		equipmentRegistService.registCheck(registform, result);
+
+
+		//エラーがある場合、入力画面へ戻る
+		if (result.hasErrors()) {
+		    List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
+		    model.addAttribute("categoryList", categoryList);
+		    return "equipmentRegist/equipmentRegistInput";
+		}
+		
+		System.out.println("カテゴリID: " + registform.getCategoryId());
+		System.out.println("カテゴリ名: " + stockTypeMaster.getName());
+		System.out.println("入力タイプ: " + stockTypeMaster.getInputType());
+		System.out.println("備品名: " + registform.getEquipmentName());
+		System.out.println("リース返却日: " + registform.getLeaseReturnDate());
+		System.out.println("メーカー: " + registform.getMaker());
+		System.out.println("型番:" + registform.getModel());
+		System.out.println("型番:" + registform.getLeaseReturnDate());
+		System.out.println("備考: " + registform.getRemarks());
+		System.out.println("貸出可否: " + registform.getRentFlag());
+		
+		//カテゴリ名をモデルにセット
+		model.addAttribute("categoryName", stockTypeMaster.getName());
+		model.addAttribute("equipmentRegistForm", registform);
+
 		return "equipmentRegist/EquipmentRegistCheck";
 	}
-	
+
 	/**
 	 * 備品登録入力画面へ戻る
 	 */
 	@PostMapping("/equipmentRegistBack")
 	public String equipmentRegistBack(@ModelAttribute EquipmentRegistForm registform, Model model) {
-		System.out.println(registform.getCategoryId());
-		System.out.println(registform.getEquipmentName());
-		System.out.println(registform.getModel());
-		System.out.println(registform.getMaker());
-		System.out.println(registform.getOwnershipType());
-		System.out.println(registform.getLeaseReturnDate());
-		System.out.println(registform.getRemarks());
-		System.out.println(registform.getRentFlag());
-		List<StockTypeMaster>categoryList = equipmentRegistService.categoryFind();
-		model.addAttribute("categoryList", categoryList);
-		model.addAttribute("equipmentRegistForm", registform);
-		return "equipmentRegist/equipmentRegistInput";
+	    //カテゴリの取得
+	    List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
+	    model.addAttribute("categoryList", categoryList);
+	    model.addAttribute("equipmentRegistForm", registform);
+	    return "equipmentRegist/equipmentRegistInput";
 	}
-	
+
 	/**
 	 * 備品登録処理
 	 */
 	@PostMapping("/equipmentRegistComplete")
 	public String equipmentRegistComplete(EquipmentRegistForm registform) {
-		System.out.println("登録処理実行");
-		System.out.println(registform.getCategoryId());
-		System.out.println(registform.getEquipmentName());
-		System.out.println(registform.getModel());
-		System.out.println(registform.getMaker());
-		System.out.println(registform.getOwnershipType());
-		System.out.println(registform.getLeaseReturnDate());
-		System.out.println(registform.getRemarks());
-		System.out.println(registform.getRentFlag());
+		//リース返却日のNULLチェック
+		equipmentInputCheck.leaseNullCheck(registform);
+		//備品登録挿入
 		equipmentRegistService.equipmentRegistInsert(registform);
 		return "equipmentRegist/equipmentRegistComplete";
 	}

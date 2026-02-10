@@ -1,8 +1,5 @@
 package jp.co.sss.equipment.form;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 import lombok.Data;
 
 /**
@@ -16,9 +13,10 @@ public class EquipmentRegistForm {
 	/**カテゴリID*/
 	private Integer categoryId;
 	
+	/*入力タイプ*/
+	private String inputType;
+	
 	/**備品名称*/
-	@NotBlank
-    @Size(min = 1, max = 16)
 	private String equipmentName;
 	
 	/*型番*/

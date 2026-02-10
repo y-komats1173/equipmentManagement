@@ -23,6 +23,7 @@
 		id AS id,
 		stock_type AS stockType,
 		name AS name,
+		input_type AS inputType,
 		del AS
 		del
 		FROM stock_type_master
