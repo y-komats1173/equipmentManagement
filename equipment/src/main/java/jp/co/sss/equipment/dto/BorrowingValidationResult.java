@@ -2,7 +2,9 @@ package jp.co.sss.equipment.dto;
 
 import java.util.List;
 import java.util.Set;
-
+/**
+ * 備品貸出バリデーション結果DTO
+ */
 public class BorrowingValidationResult {
 
 	/* エラーメッセージ一覧*/
