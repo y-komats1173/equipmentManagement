@@ -16,11 +16,13 @@
 			</span>
 		</p>
 		<table border="1">
+			<!--カテゴリ-->
 			<tr>
-				<!--カテゴリ-->
-				<th>カテゴリ</th>
-				<td th:text="${categoryName}"></td>
-				<th:hidden th:field="${equipmentRegistForm.categoryId}"></th:hidden>
+			    <th>カテゴリ</th>
+			    <td>
+			        <span th:text="${categoryName}"></span>
+			        <input type="hidden" th:field="*{categoryId}" />
+			    </td>
 			</tr>
 
 			<!--備品名-->
@@ -29,13 +31,13 @@
 				<td th:text="${equipmentRegistForm.equipmentName}"></td>
 			</tr>
 
-			<tr>
+			<tr th:if="${equipmentRegistForm.model != null and !#strings.isEmpty(equipmentRegistForm.model)}">
 				<th>モデル</th>
 				<td th:text="${equipmentRegistForm.model}"></td>
 			</tr>
 
 			<!--メーカー-->
-			<tr>
+			<tr th:if="${equipmentRegistForm.maker != null and !#strings.isEmpty(equipmentRegistForm.maker)}">
 				<th>メーカー</th>
 				<td th:text="${equipmentRegistForm.maker}"></td>
 			</tr>
@@ -43,17 +45,18 @@
 			<!--分類-->
 			<tr>
 				<th>分類</th>
-				<td th:switch="${equipmentRegistForm.ownershipType}">
+				<td th:switch="${equipmentRegistForm.ownershipType}" id="rentalType" onchange="stockType();">
 					<span th:case="1">会社保有</span>
 					<span th:case="2">リース品</span>
 				</td>
 			</tr>
 
 			<!--リース返却日-->
-			<tr>
-				<th>リース返却日</th>
-				<td th:text="${equipmentRegistForm.leaseReturnDate}"></td>
+			<tr th:if="${equipmentRegistForm.leaseReturnDate != null}">
+			    <th>リース返却日</th>
+			    <td th:text="${equipmentRegistForm.leaseReturnDate}"></td>
 			</tr>
+			
 			<!--備考-->
 			<tr>
 				<th>備考</th>
@@ -94,6 +97,8 @@
 		<input type="hidden" th:field="*{rentFlag}" />
 		<button class="indexReturnButton" type="submit">戻る</button>
 	</form>
+	
+
 </body>
 
 </html>
