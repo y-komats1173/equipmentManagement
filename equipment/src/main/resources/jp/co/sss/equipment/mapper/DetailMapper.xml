@@ -30,6 +30,7 @@
 		lease_return_date AS leaseReturnDate,
 		<!-- 追加項目ここまで -->
 		
+		rent_flag AS rentFlag,
 		confirmed_date AS confirmedDate,
 		remarks AS remarks,
 		equipment_id AS equipmentId,
@@ -91,5 +92,32 @@
 		FROM equip_detail_view
 		WHERE equipment_name LIKE CONCAT('%', #{name}, '%')
 		AND rent_flag = '可'
+	</select>
+	
+	<!-- シリアルナンバー検索 -->
+		<select id="serialNoFind"
+		resultType="jp.co.sss.equipment.dto.DetailListViewDto">
+		SELECT
+		equipment_name AS equipmentName,
+		stock_type AS stockType,
+		parent_stock_code AS
+		parentStockCode,
+		staff_name AS staffName,
+		rent_flag AS rentFlag,
+		start_date AS startDate,
+		limit_date AS limitDate,
+		destination_serial AS destinationSerial,
+		product_name AS productName,
+		maker AS maker,
+		ownership_type AS ownershipType,
+		lease_return_date AS leaseReturnDate,	
+		confirmed_date AS confirmedDate,
+		remarks AS remarks,
+		equipment_id AS equipmentId,
+		rent_flag AS rentFlag,
+		staff_no
+		AS staffNo
+		FROM equip_detail_view
+		WHERE parent_stock_code = #{serialNo}
 	</select>
 </mapper>
