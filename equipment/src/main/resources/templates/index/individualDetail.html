@@ -114,8 +114,9 @@
 		</form>
 
 		<!--備品編集画面遷移-->
-		<form>
-			<button type="submit">編集</button>
+		<form th:action="@{/equipmentUpdateInput}">
+		    <input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}">
+		    <button type="submit">編集</button>
 		</form>
 
 		<!--戻る-->
