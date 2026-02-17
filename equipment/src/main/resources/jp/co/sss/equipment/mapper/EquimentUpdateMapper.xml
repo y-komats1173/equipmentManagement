@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapperインターフェスと修飾名を一致させる -->
+<mapper namespace="jp.co.sss.equipment.mapper.EquimentUpdateMapper">
+<!-- シリアルナンバー検索 -->
+		<select id="equimentFind"
+		resultType="jp.co.sss.equipment.entity.StockMaster">
+		SELECT
+		stock_code AS stockCode,
+		name AS name,
+		model AS model,
+		maker AS maker,
+		stock_type AS stockType,
+		rent_flag AS rentFlag,
+		ownership_Type AS ownershipType,
+		lease_return_date AS leaseReturnDate,
+		remarks AS remarks
+		FROM stock_master
+        WHERE stock_code = #{serialNo}
+	</select>
+</mapper>
