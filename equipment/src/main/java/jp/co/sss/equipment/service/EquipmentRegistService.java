@@ -45,7 +45,7 @@ public class EquipmentRegistService {
 	
 	public void registCheck(EquipmentRegistForm form, BindingResult result) {
 
-        // 入力タイプ別チェック（業務ルール）
+        // 入力タイプ別チェック
 		equipmentInputCheck.categoryCheck(form, result);
 
         // ここでエラーあったら
