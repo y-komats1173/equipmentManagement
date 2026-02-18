@@ -64,17 +64,17 @@ public class IndexController {
 
 	/**
 	 * 個別詳細画面
-	 */
+	 */	
 	@GetMapping("/individualDetail")
-	public String individualDetail(Model model, String serialNo, String name) {
-		System.out.println("serialNo = " + serialNo);
-		System.out.println("name = " + name);
+	public String individualDetail(Model model, @RequestParam("serialNo") String serialNo) {
+	    DetailListViewDto detail = indexService.serialNoFind(serialNo);
 
-		DetailListViewDto detailList = indexService.serialNoFind(serialNo);
-		DetailListViewDto detail = detailList;
-		model.addAttribute("detailName", detailList); //備品名が複数取得されるため１つ目だけ採取しHTMLに反映（１つだけのため）
-		model.addAttribute("itemDetail", detailList);
-		model.addAttribute("categoryName", name);
-		return "index/individualDetail";
+	    model.addAttribute("detailName", detail);
+	    model.addAttribute("itemDetail", detail);
+
+	    // 戻る用に備品名をセット
+	    model.addAttribute("nameForBack", detail.getEquipmentName());
+
+	    return "index/individualDetail";
 	}
 }
