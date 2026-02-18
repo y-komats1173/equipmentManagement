@@ -109,8 +109,9 @@
 	<!--戻るボタン-->
 	<div class="form">
 		<form th:action="@{/individualDetail}" method="get">
-		    <input type="hidden" name="serialNo" th:value="${equipmentForm.stockCode}" />
-		    <button class="indexReturnButton" type="submit">戻る</button>
+			<input type="hidden" name="serialNo"
+				th:value="${equipmentForm.stockCode != null ? equipmentForm.stockCode : detailName.stockCode}" />
+			<button class="indexReturnButton" type="submit">戻る</button>
 		</form>
 	</div>
 
