@@ -49,6 +49,7 @@ public class BeanCopy {
 	    form.setLeaseReturnDate(stockMaster.getLeaseReturnDate());
 	    form.setRemarks(stockMaster.getRemarks());
 	    form.setRentFlag(stockMaster.getRentFlag());
+	    form.setStockCode(stockMaster.getStockCode());
 
 	    return form;
 	}
