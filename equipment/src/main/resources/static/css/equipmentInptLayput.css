@@ -1,0 +1,100 @@
+@charset "UTF-8";
+/* 共通フォント・色 */
+body {
+    font-family: "Noto Sans JP", sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0 20px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin: 20px 0;
+    color: #1a202c;
+}
+.form-vertical {
+    display: flex;
+    flex-direction: column; /* 縦並びにする */
+    align-items: flex-start; /* 左寄せ */
+}
+.form {
+    display: flex;
+    flex-direction: column; /* 縦並び */
+    align-items: center;    /* 中央揃え */
+    margin-bottom: 15px;
+}
+
+.label, .input {
+    width: 300px;        /* 親幅を固定 */
+    text-align: center;  /* ラベル中央 */
+    margin-bottom: 5px;
+}
+
+.input input,
+.input select {
+    width: 100%;          /* 親に合わせる */
+    text-align: left;
+    padding: 6px 10px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    box-sizing: border-box; /* パディング込みで幅をととのえる */
+}
+
+/* エラー表示 */
+.fc_red {
+    color: #e53e3e;
+    font-weight: bold;
+}
+
+.error-box {
+    background-color: #fff5f5;
+    border: 1px solid #feb2b2;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.error-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+/* ボタン */
+button {
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #2b6cb0;
+}
+
+.indexReturnButton {
+    background-color: #38a169;
+}
+
+.indexReturnButton:hover {
+    background-color: #2f855a;
+}
+
+/* Boxの表示制御 */
+#Box1, #Box2, #Box3, #Box4, #Box5, #Box6, #Box7 {
+    transition: all 0.3s ease-in-out;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    .label {
+        flex: 0 0 100%;
+        margin-bottom: 5px;
+    }
+    .input {
+        flex: 0 0 100%;
+    }
+}
