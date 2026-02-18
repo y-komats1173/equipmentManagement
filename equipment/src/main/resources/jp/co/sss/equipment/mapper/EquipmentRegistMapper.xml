@@ -4,33 +4,6 @@
 
 <mapper
 	namespace="jp.co.sss.equipment.mapper.EquipmentRegistMapper">
-	<!-- 在庫種別マスタ全件取得 -->
-	<select id="categoryFind"
-		resultType="jp.co.sss.equipment.entity.StockTypeMaster">
-		SELECT
-		id AS id,
-		stock_type AS stockType,
-		name AS name,
-		del AS
-		del
-		FROM stock_type_master
-	</select>
-
-	<!-- カテゴリ名検索 -->
-	<select id="findByCategoryId"
-		resultType="jp.co.sss.equipment.entity.StockTypeMaster">
-		SELECT
-		id AS id,
-		stock_type AS stockType,
-		name AS name,
-		input_type AS inputType,
-		del AS
-		del
-		FROM stock_type_master
-		WHERE
-		stock_type = #{categoryId}
-	</select>
-	
 	<!-- idの採番 および　データの追加　シリアル以外-->
 	<insert id="equipmentRegistInsert"
         parameterType="jp.co.sss.equipment.entity.StockMaster"
