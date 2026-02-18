@@ -39,9 +39,6 @@ public class EquipmentRegistController {
 		//ログイン機能追加後は、セッションチェックを実装
 		//カテゴリの取得
 		List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
-		for (StockTypeMaster category : categoryList) {
-			System.out.println(category);
-		}
 		model.addAttribute("categoryList", categoryList);
 		return "equipmentRegist/equipmentRegistInput";
 	}
