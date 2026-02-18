@@ -18,19 +18,6 @@ import jp.co.sss.equipment.entity.StockTypeMaster;
 public interface EquipmentRegistMapper {
 
 	/**
-	 * カテゴリ取得
-	 * @return
-	 */
-	List<StockTypeMaster> categoryFind();
-
-	/**
-	 * カテゴリIDからカテゴリ情報を取得
-	 * @param categoryId
-	 * @return
-	 */
-	StockTypeMaster findByCategoryId(@Param("categoryId") Integer categoryId);
-
-	/**
 	 * 備品登録挿入（idの追加）
 	 */
 	void equipmentRegistInsert(StockMaster stockMaster);	
