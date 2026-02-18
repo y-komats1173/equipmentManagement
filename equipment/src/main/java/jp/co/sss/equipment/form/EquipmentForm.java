@@ -16,6 +16,9 @@ public class EquipmentForm {
 	/*入力タイプ*/
 	private String inputType;
 	
+	  /** シリアルナンバー */
+    private String stockCode;
+	
 	/**備品名称*/
 	private String equipmentName;
 	
