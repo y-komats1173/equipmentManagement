@@ -108,25 +108,23 @@
 	<!--ボタン-->
 	<div>
 		<!--削除確認画面遷移-->
-		<form th:action="@{/equipmentDeleteCheck}">
-		    <input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}">
-		    <button type="submit">削除</button>
+		<form th:action="@{/equipmentDeleteCheck}" method="get">
+			<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}" />
+			<input type="hidden" name="name" th:value="${categoryName}" />
+			<button type="submit">削除</button>
 		</form>
 
 		<!--備品編集画面遷移-->
 		<form th:action="@{/equipmentUpdateInput}">
-		    <input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}">
-		    <button type="submit">編集</button>
+			<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}">
+			<button type="submit">編集</button>
 		</form>
 
 		<!--戻る-->
-		<form th:action="@{/detail(name=${detailName.equipmentName})}" method="get">
-			<button type="button" onclick="history.back()">戻る</button>
-
+		<form th:action="@{/detail(name=${categoryName})}" method="get">
+			<button type="submit">戻る</button>
 		</form>
 	</div>
-
-
 </body>
 
 </html>
