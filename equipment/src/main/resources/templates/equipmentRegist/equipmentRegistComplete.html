@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>登録完了</title>
+	<meta charset="UTF-8">
+	<title>登録完了</title>
 </head>
+
 <body>
 	<h1>備品登録完了</h1>
-    <p>備品の登録が完了しました。</p>
-    <a th:href="@{/index}">戻る</a>
+	<p>備品の登録が完了しました。</p>
+	<form th:action="@{/index}" method="get">
+		<input type="submit" value="戻る">
+	</form>
+
+	<form th:action="@{/equipmentRegistInput}" method="get">
+		<br>
+		<input type="submit" value="続けて登録">
+	</form>
 
 </body>
+
 </html>
