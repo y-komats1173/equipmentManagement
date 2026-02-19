@@ -35,6 +35,7 @@ public class EquipmentDeleteController {
 		model.addAttribute("detailName", detailList);
 		model.addAttribute("itemDetail", detailList);
 		model.addAttribute("categoryName", name); 
+		model.addAttribute("parentStockCode", detailList.getParentStockCode());
 		return "equipmentDelete/equipmentDeleteCheck";
 	}
 
