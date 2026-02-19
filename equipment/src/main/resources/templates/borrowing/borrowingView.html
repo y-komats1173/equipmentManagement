@@ -48,73 +48,78 @@
 						<col class="col-check">
 					</colgroup>
 
-					<tr class="front_label_color">
-						<th class="col-serial">シリアルナンバー</th>
-						<th>使用者</th>
-						<th>貸出開始日</th>
-						<th>返却予定日</th>
-						<th>備考</th>
-						<th>貸出</th>
-					</tr>
+
+					<thead>
+						<tr class="front_label_color">
+							<th class="col-serial">シリアルナンバー</th>
+							<th>使用者</th>
+							<th>貸出開始日</th>
+							<th>返却予定日</th>
+							<th>備考</th>
+							<th>貸出</th>
+						</tr>
+					</thead>
 
 					<!-- 備品リスト表示 -->
 					<!-- エラー行は赤背景、正常行は黄背景 -->
-					<tr th:each="item : ${itemDetail}" th:classappend="
+					<tbody>
+						<tr th:each="item : ${itemDetail}" th:classappend="
 					        ${errorEquipmentIds != null and errorEquipmentIds.contains(item.equipmentId)} ? 'row-error' :
 					        (${warningEquipmentIds != null and warningEquipmentIds.contains(item.equipmentId)} ? 'row-warning' :
 					        (${normalEquipmentIds != null and normalEquipmentIds.contains(item.equipmentId)} ? 'row-normal' : ''))
 					    ">
-						<!-- シリアルナンバー -->
-						<td class="col-serial">
-							<!-- シリアルナンバー表示 -->
-							<span th:text="${item.parentStockCode}"></span>
-							<!-- シリアルナンバーをhiddenで送信 -->
-							<input type="hidden" th:name="|serialMap[${item.equipmentId}]|"
-								th:value="${item.parentStockCode}">
-						</td>
+							<!-- シリアルナンバー -->
+							<td class="col-serial">
+								<!-- シリアルナンバー表示 -->
+								<span th:text="${item.parentStockCode}"></span>
+								<!-- シリアルナンバーをhiddenで送信 -->
+								<input type="hidden" th:name="|serialMap[${item.equipmentId}]|"
+									th:value="${item.parentStockCode}">
+							</td>
 
-						<!-- 使用者選択 -->
-						<td class="col-user">
-							<!-- プルダウン選択 -->
-							<select th:name="|staffNoMap[${item.equipmentId}]|">
-								<option value="">選択してください</option>
-								<!-- スタッフ名をループで表示 -->
-								<option th:each="staff : ${staffName}" th:value="${staff.staffNo}"
-									th:text="${staff.name}" th:selected="${prevStaffNoMap != null 
+							<!-- 使用者選択 -->
+							<td class="col-user">
+								<!-- プルダウン選択 -->
+								<select th:name="|staffNoMap[${item.equipmentId}]|">
+									<option value="">選択してください</option>
+									<!-- スタッフ名をループで表示 -->
+									<option th:each="staff : ${staffName}" th:value="${staff.staffNo}"
+										th:text="${staff.name}" th:selected="${prevStaffNoMap != null 
 					                    and prevStaffNoMap[item.equipmentId.toString()] == staff.staffNo.toString()}">
-								</option>
-							</select>
-						</td>
+									</option>
+								</select>
+							</td>
 
-						<!-- 貸出開始日・返却予定日入力 -->
-						<td class="col-start">
-							<!-- 今日の日付をデフォルト値として設定 -->
-							<input type="date" th:name="|startDateMap[${item.equipmentId}]|" th:value="${prevStartDateMap != null and prevStartDateMap[item.equipmentId.toString()] != null
+							<!-- 貸出開始日・返却予定日入力 -->
+							<td class="col-start">
+								<!-- 今日の日付をデフォルト値として設定 -->
+								<input type="date" th:name="|startDateMap[${item.equipmentId}]|" th:value="${prevStartDateMap != null and prevStartDateMap[item.equipmentId.toString()] != null
 					                     ? prevStartDateMap[item.equipmentId.toString()]
 					                     : today}">
-						</td>
+							</td>
 
-						<!-- 返却予定日 -->
-						<td class="col-limit">
-							<!-- デフォルトの返却予定日を設定 -->
-							<input type="date" th:name="|limitDateMap[${item.equipmentId}]|" th:value="${prevLimitDateMap != null and prevLimitDateMap[item.equipmentId.toString()] != null
+							<!-- 返却予定日 -->
+							<td class="col-limit">
+								<!-- デフォルトの返却予定日を設定 -->
+								<input type="date" th:name="|limitDateMap[${item.equipmentId}]|" th:value="${prevLimitDateMap != null and prevLimitDateMap[item.equipmentId.toString()] != null
 					                     ? prevLimitDateMap[item.equipmentId.toString()]
 					                     : defaultLimit}">
-						</td>
+							</td>
 
-						<!-- 備考 -->
-						<td class="col-remarks">
-							<div class="scroll-inner">
-								<p th:text="${item.remarks}"></p>
-							</div>
-						</td>
+							<!-- 備考 -->
+							<td class="col-remarks">
+								<div class="scroll-inner">
+									<p th:text="${item.remarks}"></p>
+								</div>
+							</td>
 
-						<!-- 貸出チェックボックス -->
-						<td class="col-check">
-							<input type="checkbox" name="equipmentIdList" th:value="${item.equipmentId}" th:checked="${prevEquipmentIdList != null
+							<!-- 貸出チェックボックス -->
+							<td class="col-check">
+								<input type="checkbox" name="equipmentIdList" th:value="${item.equipmentId}" th:checked="${prevEquipmentIdList != null
 					                     and prevEquipmentIdList.contains(item.equipmentId)}">
-						</td>
-					</tr>
+							</td>
+						</tr>
+					</tbody>
 				</table>
 			</form>
 		</div>

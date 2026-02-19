@@ -1,0 +1,67 @@
+@charset "UTF-8";
+
+/* 画面中央に固定 */
+.center-wrapper {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* 横中央 */
+	margin-top: 30px;
+}
+
+/* テーブル */
+.detail-table {
+	width: 100%;
+	max-width: 450px;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+	font-size: 18px;
+	margin: 0 auto;
+}
+
+/*テーブル左側の幅*/
+.detail-table th {
+	width: 40%;
+	background-color: rgb(191, 191, 191);
+}
+
+/*テーブル右側の幅*/
+.detail-table td {
+	width: 60%;
+}
+
+/*テーブル共通*/
+.detail-table th,
+.detail-table td {
+	padding: 6px 12px;  /* 行の高さ */
+}
+
+/*備品情報ラベル*/
+.detail-table-header {
+	background-color: rgb(19, 0, 242) !important;
+	color: white;
+}
+
+/*貸出情報ラベル*/
+.rental-table-header {
+	background-color: rgb(232, 180, 38) !important;
+    color: rgb(21, 0, 14);
+	}
+	
+	/*貸出情報なし*/
+.no-rental {
+	background-color: rgb(234, 192, 255) !important;
+	}
+
+	form {
+		width: 100%;
+	}
+	
+/* ボタンエリア */
+.button-area {
+	width: 100%;
+	max-width: 800px;
+	display: flex;
+	justify-content: space-between;
+}
