@@ -9,11 +9,17 @@
 	<header th:fragment="layout-header">
 	  <nav class="main-nav">
 	    <div class="nav-left">
-	      <a href="/index" class="logo">備品管理システム</a>
-	      <a th:if="${session.user != null}" th:href="@{/equipment/regist/input}" class="nav-link">備品登録</a>
+	      <a th:href="@{/index}" class="logo">備品管理システム</a>
+
+	      <!-- 備品登録（4と99は非表示） -->
+	      <a th:if="${session.user != null and session.user.authNo != 4 and session.user.authNo != 99}"
+	         th:href="@{/equipment/regist/input}"
+	         class="nav-link">備品登録</a>
 	    </div>
+
+	    <!-- 右側（ログイン中のみ表示） -->
 	    <div class="nav-right" th:if="${session.user != null}">
-	      <span th:text="${loginUser.name}"></span>さん
+	      <span th:text="${session.user.name}"></span>さん
 	      <a th:href="@{/logout}" class="nav-link">ログアウト</a>
 	    </div>
 	  </nav>

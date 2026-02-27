@@ -20,19 +20,22 @@
 }
 
 .borrow-table {
-    width: max-content;
-    min-width: 1600px; 
-    border-collapse: collapse;
-	margin: 0 20px;   
+	width: max-content;
+	min-width: 1600px;
+	border-collapse: collapse;
+	margin: 0 20px;
 }
 
 /* テーブル下のボタンを右寄せ */
 .table-buttons {
-    display: flex;
-    justify-content: flex-end; /* 右寄せ */
-    margin-top: 10px;
-    padding-right: 0;          /* 余白リセット */
-    gap: 8px;                  /* ボタン間の間隔 */
+	display: flex;
+	justify-content: flex-end;
+	/* 右寄せ */
+	margin-top: 10px;
+	padding-right: 0;
+	/* 余白リセット */
+	gap: 8px;
+	/* ボタン間の間隔 */
 }
 
 .borrow-table th {
@@ -236,9 +239,11 @@
 
 .borrow-table {
 	width: max-content;
-	min-width: 1600px;
+	min-width: 1400px;
 	border-collapse: separate;
-	margin: 0 auto;  
+	margin: 0 auto;
+	background-color: #fff;
+	font-size: 14px;
 }
 
 /* 1行の高さで統一して縦スクロール */
@@ -275,7 +280,8 @@
 	position: sticky;
 	top: 0;
 	left: 0;
-	z-index: 20; /* 一番上 */
+	z-index: 20;
+	/* 一番上 */
 	background-color: rgb(26, 11, 134);
 	color: white;
 }
@@ -289,37 +295,43 @@
 }
 
 .table-wrapper {
-    width: auto;          /* 親に合わせる */
-    max-width: 100%;      /* 画面幅以上に広がらない */
-    margin: 0 60px;       /* 左右に20pxの余白 */
-    overflow-x: auto;
-    overflow-y: auto;
-    white-space: nowrap;
-    box-sizing: border-box;
+	width: auto;
+	/* 親に合わせる */
+	max-width: 100%;
+	/* 画面幅以上に広がらない */
+	margin: 0 60px;
+	/* 左右に20pxの余白 */
+	overflow-x: auto;
+	overflow-y: auto;
+	white-space: nowrap;
+	box-sizing: border-box;
 }
 
 
 /**追加*/
 .table-wrapper {
-    margin: 0 auto;
-    width: fit-content;
+	margin: 0 auto;
+	width: fit-content;
 }
 
 .table-buttons {
-    width: fit-content;
-    margin: 10px auto 0;
-    display: flex;
-    justify-content: flex-end;
+	width: fit-content;
+	margin: 10px auto 0;
+	display: flex;
+	justify-content: flex-end;
 }
 
 /*削除済み*/
 .deleted-row td,
 .deleted-row a {
-  text-decoration: line-through;
-  opacity: 0.55;
+	/*text-decoration: line-through;
+	opacity: 0.55;*/
+	background-color: gold;
+	color: red;
 }
 
 /*削除済み*/
-.deleted-row a {
-  pointer-events: none;   /* クリック無効化（リンク飛ばない） */
-}
+/*.deleted-row a {
+	pointer-events: none;
+	/* クリック無効化（リンク飛ばない） */
+/*}
