@@ -12,7 +12,6 @@
 	<div th:replace="~{common/layout :: header}"></div>
 	<div class="center-wrapper">
 		<h1> 備品詳細</h1>
-
 		<table border="1" class="detail-table">
 			<tr>
 				<th class="detail-table-header" colspan="2" style="text-align:center;">備品情報</th>
@@ -124,11 +123,12 @@
 				</form>
 
 				<!--備品編集画面遷移-->
-				<form th:if="${session.user != null and session.user.authNo != 4 and session.user.authNo != 99  and detailName.delFlag == 0}"
+				<form th:if="${session.user != null and session.user.authNo != 4 and session.user.authNo != 99 and detailName.delFlag == 0}"
 					th:action="@{/equipment/update/input}">
 					<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}">
 					<button type="submit" class="commonButton edit-btn">編集</button>
 				</form>
+				
 			</div>
 
 			<!--戻る-->
