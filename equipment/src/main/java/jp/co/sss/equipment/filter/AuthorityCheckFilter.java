@@ -23,11 +23,6 @@ public class AuthorityCheckFilter extends HttpFilter {
 		String uri = request.getRequestURI();
 		String ctx = request.getContextPath();
 		String path = uri.substring(ctx.length());
-		
-		System.out.println("uri==" + uri);
-		System.out.println("ctx==" + ctx);
-		System.out.println("path==" + path);
-		System.out.println("method==" + request.getMethod());
 
 		// ログインページと静的リソースはフィルターを通過させる
 		if (path.equals("/") || path.equals("/login")
@@ -53,7 +48,8 @@ public class AuthorityCheckFilter extends HttpFilter {
 		// 管理者URLと操作URLの定義
 		boolean isAdminUrl = path.startsWith("/equipment/regist") ||
 				path.startsWith("/equipment/update") ||
-				path.startsWith("/equipment/delete");
+				path.startsWith("/equipment/delete") ||
+				path.startsWith("/equipment/history");
 
 		// 操作URLの定義
 		boolean isOperateUrl = path.startsWith("/borrowing/view") ||
