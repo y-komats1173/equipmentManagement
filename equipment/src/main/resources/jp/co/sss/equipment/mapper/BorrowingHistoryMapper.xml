@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapperインターフェスと修飾名を一致させる -->
+<mapper namespace="jp.co.sss.equipment.mapper.BorrowingHistoryMapper">
+ <!-- DTOマッピング -->
+    <resultMap id="BorrowingHistoryResultMap"
+               type="jp.co.sss.equipment.dto.BorrowingHistoryDto">
+
+        <result column="stock_code" property="stockCode"/>
+        <result column="staffName" property="staffName"/>
+        <result column="start_date" property="startDate"/>
+        <result column="return_date" property="returnDate"/>
+        <result column="limit_date" property="limitDate"/>
+        <result column="ownership_type" property="ownershipType"/>
+        <result column="deleted_label" property="deletedLabel"/>
+
+    </resultMap>
+
+    <!-- 履歴取得 -->
+    <select id="findBorrowingHistory"
+            resultMap="BorrowingHistoryResultMap">
+
+        SELECT
+            stock_code,
+            staffName,
+            start_date,
+            return_date,
+            limit_date,
+            ownership_type,
+            deleted_label
+        FROM borrow_history_view
+        ORDER BY start_date DESC
+
+    </select>
+
+</mapper>
