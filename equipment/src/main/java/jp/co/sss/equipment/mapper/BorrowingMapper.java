@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import jp.co.sss.equipment.dto.DetailListViewDto;
-import jp.co.sss.equipment.entity.StaffData;
 import jp.co.sss.equipment.entity.StockData;
 
 /**
@@ -20,10 +19,6 @@ public interface BorrowingMapper {
 	 */
 	List<DetailListViewDto> borrowingFind(@Param("name") String name);
 
-	/*
-	 * 貸出画面に表示させる使用者の取得
-	 */
-	List<StaffData> staffFind();
 
 	/**
 	 * 最新情報の取得
