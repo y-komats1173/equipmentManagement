@@ -17,6 +17,7 @@ import jp.co.sss.equipment.dto.DetailListViewDto;
 import jp.co.sss.equipment.entity.StaffData;
 import jp.co.sss.equipment.service.BorrowingService;
 import jp.co.sss.equipment.service.IndexService;
+import jp.co.sss.equipment.service.StaffCommonService;
 import jp.co.sss.equipment.util.DateUtil;
 
 /**
@@ -27,6 +28,9 @@ import jp.co.sss.equipment.util.DateUtil;
 public class BorrowingController {
 	@Autowired //DIの導入
 	BorrowingService borrowingService;
+	
+	@Autowired
+	StaffCommonService staffCommonService;
 
 	@Autowired
 	IndexService indexService;
@@ -46,7 +50,7 @@ public class BorrowingController {
 		model.addAttribute("detailName", detailName); //画面に渡す
 
 		List<DetailListViewDto> borrowingList = borrowingService.borrowingFindView(name);
-		List<StaffData> staffList = borrowingService.staffDataFind();
+		List<StaffData> staffList = staffCommonService.staffDataFind();
 
 		model.addAttribute("itemDetail", borrowingList); //貸出リストの取得
 		model.addAttribute("staffName", staffList); //使用者名の取得
