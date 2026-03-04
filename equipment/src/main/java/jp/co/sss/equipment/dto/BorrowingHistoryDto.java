@@ -1,7 +1,5 @@
 package jp.co.sss.equipment.dto;
 
-import java.time.LocalDate;
-
 import lombok.Data;
 
 /**
@@ -12,18 +10,24 @@ public class BorrowingHistoryDto {
 
     /* シリアルナンバー */
     private String stockCode;
+    
+    /*カテゴリ*/
+    private String categoryName;
+    
+    /*製品名*/
+    private String productName;
 
     /* 使用者名 */
     private String staffName;
 
     /* 貸出日 */
-    private LocalDate startDate;
+    private String startDate;
 
     /* 返却日 */
-    private LocalDate returnDate;
+    private String returnDate;
 
     /* 返却予定日 */
-    private LocalDate limitDate;
+    private String limitDate;
 
     /* 分類（会社所有 / リース） */
     private String ownershipType;
