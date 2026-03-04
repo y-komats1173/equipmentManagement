@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jp.co.sss.equipment.dto.BorrowingHistoryDto;
+import jp.co.sss.equipment.form.BorrowingHistorySearchForm;
 import jp.co.sss.equipment.service.BorrowingHistoryService;
 
 /**
@@ -23,16 +24,17 @@ public class BorrowingHistoryController {
 	 * 履歴画面への遷移
 	 */
 	@GetMapping("/equipment/history")
-	public String equipmentHistoryView(Model model) {
-		List<BorrowingHistoryDto> list =
-	            borrowingHistoryService.findBorrowingHistory();
+	public String equipmentHistoryView(BorrowingHistorySearchForm form, Model model) {
+		List<BorrowingHistoryDto> historyList =
+	            borrowingHistoryService.findBorrowingHistory(form);
 
 	    //履歴確認
-	    for (BorrowingHistoryDto dto : list) {
+	    for (BorrowingHistoryDto dto : historyList) {
 	        System.out.println(dto);
 	    }
 
-	    model.addAttribute("historyList", list);
+	    model.addAttribute("historyList", historyList);
+	    model.addAttribute("form",form);
 
 		return "history/borrowingHistory";
 	}
