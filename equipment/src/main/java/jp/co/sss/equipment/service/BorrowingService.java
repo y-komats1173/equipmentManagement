@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sss.equipment.dto.BorrowingValidationResult;
 import jp.co.sss.equipment.dto.DetailListViewDto;
-import jp.co.sss.equipment.entity.StaffData;
 import jp.co.sss.equipment.mapper.BorrowingMapper;
 import jp.co.sss.equipment.util.DateUtil;
 
@@ -33,14 +32,6 @@ public class BorrowingService {
 	 */
 	public List<DetailListViewDto> borrowingFindView(String name) {
 		return borrowingMapper.borrowingFind(name); //マッパーの処理を返す
-	}
-
-	/**
-	 * スタッフデータを取得
-	 * @return
-	 */
-	public List<StaffData> staffDataFind() {
-		return borrowingMapper.staffFind();//マッパーの処理を返す
 	}
 
 	/**
