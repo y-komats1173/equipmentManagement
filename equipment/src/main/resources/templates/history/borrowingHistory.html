@@ -1,10 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>貸出履歴</title>
 </head>
+
 <body>
+	<h1>貸出履歴</h1>
+	
+	<!-- 検索フォーム -->
+	<form th:action="@{/equipment/history}" method="get" th:object="${form}">
+	  <!-- 1段目：テキスト＋日付 -->
+	  <div>
+		<input type="text" th:field="*{stockCode}" placeholder="シリアル">
+		<input type="text" th:field="*{categoryName}" placeholder="カテゴリ">
+		<input type="text" th:field="*{productName}" placeholder="製品名">
+
+	    <label>貸出日</label>
+	    <input type="date" th:field="*{fromDate}">
+	    <span>〜</span>
+	    <input type="date" th:field="*{toDate}">
+	  </div>
+
+	  <!-- 2段目：絞り込み（分類・削除・使用者） -->
+	  <div>
+	    <label>分類</label>
+	    <select th:field="*{ownershipType}">
+	      <option value="">全て</option>
+	      <option value="会社所有">会社所有</option>
+	      <option value="リース">リース</option>
+	    </select>
+
+	    <label>削除</label>
+	    <select th:field="*{includeDeleted}">
+	      <!-- Booleanは文字列で来るのでこの3択が安定 -->
+	      <option value="">全て</option>
+	      <option value="false">未削除のみ</option>
+	      <option value="true">削除も含む</option>
+	      <!-- 「削除のみ」もやりたいならフォーム側を enum/Integer にするのがキレイ（後述） -->
+	    </select>
+
+	    <label>使用者（社員番号）</label>
+	    <input type="number" th:field="*{staffNo}" placeholder="例: 1001">
+	  </div>
+
+	  <!-- 3段目：並べ替え -->
+	  <div>
+	    <label>並べ替え</label>
+	    <select th:field="*{sortKey}">
+	      <option value="startDate">貸出日</option>
+	      <option value="stockCode">シリアル</option>
+	      <option value="staffName">使用者</option>
+	      <option value="returnDate">返却日</option>
+	      <option value="limitDate">返却予定日</option>
+	    </select>
+
+	    <select th:field="*{sortDir}">
+	      <option value="desc">降順</option>
+	      <option value="asc">昇順</option>
+	    </select>
+
+	    <button type="submit">検索</button>
+	    <a th:href="@{/equipment/history}">クリア</a>
+	  </div>
+
+	  <!-- 4段目：ワンタッチ絞り込みボタン（これ欲しいやつ） -->
+	  <div>
+	    <!-- 会社所有だけ -->
+	    <button type="submit" name="ownershipType" value="会社所有">会社所有</button>
+	    <!-- リースだけ -->
+	    <button type="submit" name="ownershipType" value="リース">リース</button>
+	    <!-- 未削除だけ（※includeDeleted設計次第） -->
+	    <button type="submit" name="includeDeleted" value="false">未削除のみ</button>
+	    <!-- 削除も含む -->
+	    <button type="submit" name="includeDeleted" value="true">削除も含む</button>
+	  </div>
+	</form>
+	 <p th:if="${#lists.isEmpty(historyList)}">該当なし</p>
+
+	<div>
+		<table border="1">
+			<tr>
+				<th>シリアルナンバー</th>
+				<th>カテゴリ</th>
+				<th>製品名</th>
+				<th>使用者</th>
+				<th>貸出日</th>
+				<th>返却日</th>
+				<th>返却予定日</th>
+				<th>分類</th>
+				<th>削除済</th>
+			</tr>
+
+
+			<tr th:each="history : ${historyList}">
+				<td th:text="${history.stockCode}"></td> <!--シリアルナンバー-->
+				<td th:text="${history.categoryName}"></td> <!--カテゴリ-->
+				<td th:text="${history.productName}"></td> <!--製品名-->
+				<td th:text="${history.staffName}"></td> <!--使用者-->
+				<td th:text="${history.startDate}"></td> <!--貸出日-->
+				<td th:text="${history.returnDate}"></td> <!--返却日-->
+				<td th:text="${history.limitDate}"></td> <!--返却予定日-->
+				<td th:text="${history.ownershipType}"></td> <!--分類-->
+				<td th:text="${history.deletedLabel}"></td> <!--削除済み-->
+			</tr>
+		</table>
+
+	</div>
+	<button onclick="history.back()">戻る</button>
 
 </body>
+
 </html>
