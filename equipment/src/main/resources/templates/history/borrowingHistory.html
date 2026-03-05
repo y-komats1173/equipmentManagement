@@ -11,59 +11,59 @@
 	
 	<!-- 検索フォーム -->
 	<form th:action="@{/equipment/history}" method="get" th:object="${form}">
-	  <!-- 1段目：テキスト＋日付 -->
-	  <div>
-		<input type="text" th:field="*{stockCode}" placeholder="シリアル">
-		<input type="text" th:field="*{categoryName}" placeholder="カテゴリ">
-		<input type="text" th:field="*{productName}" placeholder="製品名">
+		<!-- 1段目：テキスト＋日付 -->
+		<div>
+		  <input type="text" th:field="*{stockCode}" placeholder="シリアル">
+		  
+		  <select th:field="*{categoryName}">
+		    <option value="">カテゴリ（全て）</option>
+		    <option th:each="c : ${categoryList}"
+		            th:value="${c.name}"
+		            th:text="${c.name}">
+		    </option>
+		  </select>
+		  
+		  <input type="text" th:field="*{productName}" placeholder="製品名">
 
-	    <label>貸出日</label>
-	    <input type="date" th:field="*{fromDate}">
-	    <span>〜</span>
-	    <input type="date" th:field="*{toDate}">
-	  </div>
+		  <label>貸出日</label>
+		  <input type="date" th:field="*{fromDate}">
+		  <span>〜</span>
+		  <input type="date" th:field="*{toDate}">
 
-	  <!-- 2段目：絞り込み（分類・削除・使用者） -->
-	  <div>
-	    <label>分類</label>
-	    <select th:field="*{ownershipType}">
-	      <option value="">全て</option>
-	      <option value="会社所有">会社所有</option>
-	      <option value="リース">リース</option>
-	    </select>
+		  <label>返却日</label>
+		  <input type="date" th:field="*{returnFromDate}">
+		  <span>〜</span>
+		  <input type="date" th:field="*{returnToDate}">
+		  
+		  <label>使用者</label>
+		  <input type="text" th:field="*{staffName}" placeholder="例: 山田">
 
-	    <label>削除</label>
-	    <select th:field="*{includeDeleted}">
-	      <!-- Booleanは文字列で来るのでこの3択が安定 -->
-	      <option value="">全て</option>
-	      <option value="false">未削除のみ</option>
-	      <option value="true">削除も含む</option>
-	      <!-- 「削除のみ」もやりたいならフォーム側を enum/Integer にするのがキレイ（後述） -->
-	    </select>
+		</div>
 
-	    <label>使用者（社員番号）</label>
-	    <input type="number" th:field="*{staffNo}" placeholder="例: 1001">
-	  </div>
+		<!-- 3段目：並べ替え -->
+		<div>
+		  <label>並べ替え</label>
+		  <select th:field="*{sortKey}">
+		    <option value="">選択してください</option>
+		    <option value="stockCode">シリアル</option>
+		    <option value="categoryName">カテゴリ</option>
+		    <option value="productName">製品名</option>
+		    <option value="staffName">使用者</option>
+		    <option value="startDate">貸出日</option>
+		    <option value="returnDate">返却日</option>
+		    <option value="limitDate">返却予定日</option>
+		    <option value="ownershipType">分類</option>
+		    <option value="deletedLabel">削除</option>
+		  </select>
 
-	  <!-- 3段目：並べ替え -->
-	  <div>
-	    <label>並べ替え</label>
-	    <select th:field="*{sortKey}">
-	      <option value="startDate">貸出日</option>
-	      <option value="stockCode">シリアル</option>
-	      <option value="staffName">使用者</option>
-	      <option value="returnDate">返却日</option>
-	      <option value="limitDate">返却予定日</option>
-	    </select>
+		  <select th:field="*{sortDir}">
+		    <option value="desc">降順</option>
+		    <option value="asc">昇順</option>
+		  </select>
 
-	    <select th:field="*{sortDir}">
-	      <option value="desc">降順</option>
-	      <option value="asc">昇順</option>
-	    </select>
-
-	    <button type="submit">検索</button>
-	    <a th:href="@{/equipment/history}">クリア</a>
-	  </div>
+		  <button type="submit">検索</button>
+		  <a th:href="@{/equipment/history}">クリア</a>
+		</div>
 
 	  <!-- 4段目：ワンタッチ絞り込みボタン（これ欲しいやつ） -->
 	  <div>
