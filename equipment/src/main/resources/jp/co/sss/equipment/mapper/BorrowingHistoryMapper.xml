@@ -51,8 +51,8 @@
 				AND product_name LIKE CONCAT('%', #{productName}, '%')
 			</if>
 
-			<if test="staffNo != null">
-				AND staff_no = #{staffNo}
+			<if test="staffName != null and staffName != ''">
+				AND staffName LIKE CONCAT('%', #{staffName}, '%')
 			</if>
 
 			<if test="fromDate != null">
@@ -61,6 +61,15 @@
 
 			<if test="toDate != null">
 				AND start_date &lt;= #{toDate}
+			</if>
+
+			<!-- 返却日検索 -->
+			<if test="returnFromDate != null">
+				AND return_date &gt;= #{returnFromDate}
+			</if>
+
+			<if test="returnToDate != null">
+				AND return_date &lt;= #{returnToDate}
 			</if>
 
 			<if test="ownershipType != null and ownershipType != ''">
@@ -72,7 +81,33 @@
 			</if>
 		</where>
 
-		ORDER BY start_date DESC
+		<!-- デフォルト返却日DESC＋動的ソート -->
+		ORDER BY
+		<choose>
+			<when test="sortKey != null and sortKey != ''">
+				<choose>
+					<when test="sortKey == 'stockCode'">stock_code</when>
+					<when test="sortKey == 'categoryName'">category_name</when>
+					<when test="sortKey == 'productName'">product_name</when>
+					<when test="sortKey == 'staffName'">staffName</when>
+					<when test="sortKey == 'startDate'">start_date</when>
+					<when test="sortKey == 'returnDate'">return_date</when>
+					<when test="sortKey == 'limitDate'">limit_date</when>
+					<when test="sortKey == 'ownershipType'">ownership_type</when>
+					<when test="sortKey == 'deletedLabel'">deleted_label</when>
+					<otherwise>return_date</otherwise>
+				</choose>
+
+				<choose>
+					<when test="sortDir == 'asc'"> ASC</when>
+					<otherwise> DESC</otherwise>
+				</choose>
+			</when>
+
+			<otherwise>
+				return_date IS NULL ASC, return_date DESC
+			</otherwise>
+		</choose>
 
 	</select>
 
