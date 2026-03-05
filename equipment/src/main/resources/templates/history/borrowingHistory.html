@@ -1,115 +1,177 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<title>貸出履歴</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+  <link rel="stylesheet" th:href="@{/css/historyLayout.css}">
+  <title>貸出履歴</title>
 </head>
 
 <body>
-	<h1>貸出履歴</h1>
-	
-	<!-- 検索フォーム -->
-	<form th:action="@{/equipment/history}" method="get" th:object="${form}">
-		<!-- 1段目：テキスト＋日付 -->
-		<div>
-		  <input type="text" th:field="*{stockCode}" placeholder="シリアル">
-		  
-		  <select th:field="*{categoryName}">
-		    <option value="">カテゴリ（全て）</option>
-		    <option th:each="c : ${categoryList}"
-		            th:value="${c.name}"
-		            th:text="${c.name}">
-		    </option>
-		  </select>
-		  
-		  <input type="text" th:field="*{productName}" placeholder="製品名">
+  <div th:replace="~{common/layout :: header}"></div>
 
-		  <label>貸出日</label>
-		  <input type="date" th:field="*{fromDate}">
-		  <span>〜</span>
-		  <input type="date" th:field="*{toDate}">
+  <main class="page">
+    <h1 class="page-title">貸出履歴</h1>
 
-		  <label>返却日</label>
-		  <input type="date" th:field="*{returnFromDate}">
-		  <span>〜</span>
-		  <input type="date" th:field="*{returnToDate}">
-		  
-		  <label>使用者</label>
-		  <input type="text" th:field="*{staffName}" placeholder="例: 山田">
+    <!-- 折りたたみ検索（詳細条件） -->
+   <details class="filter" open>
+      <summary class="filter__summary">
+        <span>検索条件</span>
+      </summary>
 
+      <form class="filter__form" th:action="@{/equipment/history}" method="get" th:object="${form}">
+        <!-- 1段目：主要条件 -->
+		<div class="filter__row">
+		  <div class="field">
+		    <label class="label">シリアル</label>
+		    <input class="input" type="text" th:field="*{stockCode}" placeholder="例: S000000001">
+		  </div>
+
+		  <div class="field">
+		    <label class="label">カテゴリ</label>
+		    <select class="input" th:field="*{categoryName}">
+		      <option value="">（全て）</option>
+		      <option th:each="c : ${categoryList}" th:value="${c.name}" th:text="${c.name}"></option>
+		    </select>
+		  </div>
+
+		  <div class="field">
+		    <label class="label">製品名</label>
+		    <input class="input" type="text" th:field="*{productName}" placeholder="例: デスクトップPC">
+		  </div>
+
+		  <div class="field">
+		    <label class="label">使用者</label>
+		    <input class="input" type="text" th:field="*{staffName}" placeholder="例: 山田">
+		  </div>
 		</div>
 
-		<!-- 3段目：並べ替え -->
-		<div>
-		  <label>並べ替え</label>
-		  <select th:field="*{sortKey}">
-		    <option value="">選択してください</option>
-		    <option value="stockCode">シリアル</option>
-		    <option value="categoryName">カテゴリ</option>
-		    <option value="productName">製品名</option>
-		    <option value="staffName">使用者</option>
-		    <option value="startDate">貸出日</option>
-		    <option value="returnDate">返却日</option>
-		    <option value="limitDate">返却予定日</option>
-		    <option value="ownershipType">分類</option>
-		    <option value="deletedLabel">削除</option>
-		  </select>
+        <!-- 2段目：日付 -->
+        <div class="filter__row">
+          <div class="field">
+            <label class="label">貸出日</label>
+            <div class="range">
+              <input class="input" type="date" th:field="*{fromDate}">
+              <span class="range__sep">〜</span>
+              <input class="input" type="date" th:field="*{toDate}">
+            </div>
+          </div>
 
-		  <select th:field="*{sortDir}">
-		    <option value="desc">降順</option>
-		    <option value="asc">昇順</option>
-		  </select>
+          <div class="field">
+            <label class="label">返却日</label>
+            <div class="range">
+              <input class="input" type="date" th:field="*{returnFromDate}">
+              <span class="range__sep">〜</span>
+              <input class="input" type="date" th:field="*{returnToDate}">
+            </div>
+          </div>
+        </div>
 
-		  <button type="submit">検索</button>
-		  <a th:href="@{/equipment/history}">クリア</a>
+        <!-- 3段目：並べ替え＋操作 -->
+        <div class="filter__row filter__row--actions">
+          <div class="field">
+            <label class="label">並べ替え</label>
+            <div class="range">
+              <select class="input" th:field="*{sortKey}">
+                <option value="">選択してください</option>
+                <option value="stockCode">シリアル</option>
+                <option value="categoryName">カテゴリ</option>
+                <option value="productName">製品名</option>
+                <option value="staffName">使用者</option>
+                <option value="startDate">貸出日</option>
+                <option value="returnDate">返却日</option>
+                <option value="limitDate">返却予定日</option>
+                <option value="ownershipType">分類</option>
+                <option value="deletedLabel">削除</option>
+              </select>
+
+              <select class="input" th:field="*{sortDir}">
+                <option value="desc">降順</option>
+                <option value="asc">昇順</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="btns">
+            <button class="btn btn--primary" type="submit">検索</button>
+            <a class="btn btn--ghost" th:href="@{/equipment/history}">クリア</a>
+          </div>
+        </div>
+
+		<div class="quick">
+		  <!-- 分類（複数選択） -->
+		  <div class="check-group">
+		    <span class="check-title">分類</span>
+
+		    <label class="check">
+		      <input type="checkbox" th:field="*{ownershipTypes}" value="会社所有">
+		      <span>会社所有</span>
+		    </label>
+
+		    <label class="check">
+		      <input type="checkbox" th:field="*{ownershipTypes}" value="リース">
+		      <span>リース</span>
+		    </label>
+		  </div>
+
+		  <!-- 削除（複数選択） -->
+		  <div class="check-group">
+		    <span class="check-title">削除</span>
+
+		    <label class="check">
+		      <input type="checkbox" th:field="*{deletedStatuses}" value="未削除">
+		      <span>未削除</span>
+		    </label>
+
+		    <label class="check">
+		      <input type="checkbox" th:field="*{deletedStatuses}" value="削除済み">
+		      <span>削除済み</span>
+		    </label>
+		  </div>
 		</div>
+      </form>
+    </details>
 
-	  <!-- 4段目：ワンタッチ絞り込みボタン（これ欲しいやつ） -->
-	  <div>
-	    <!-- 会社所有だけ -->
-	    <button type="submit" name="ownershipType" value="会社所有">会社所有</button>
-	    <!-- リースだけ -->
-	    <button type="submit" name="ownershipType" value="リース">リース</button>
-	    <!-- 未削除だけ（※includeDeleted設計次第） -->
-	    <button type="submit" name="includeDeleted" value="false">未削除のみ</button>
-	    <!-- 削除も含む -->
-	    <button type="submit" name="includeDeleted" value="true">削除も含む</button>
-	  </div>
-	</form>
-	 <p th:if="${#lists.isEmpty(historyList)}">該当なし</p>
+    <p class="empty" th:if="${#lists.isEmpty(historyList)}">該当なし</p>
 
-	<div>
-		<table border="1">
-			<tr>
-				<th>シリアルナンバー</th>
-				<th>カテゴリ</th>
-				<th>製品名</th>
-				<th>使用者</th>
-				<th>貸出日</th>
-				<th>返却日</th>
-				<th>返却予定日</th>
-				<th>分類</th>
-				<th>削除済</th>
-			</tr>
+    <!-- テーブル：縦スクロール＋横スクロール -->
+    <section class="table-card" th:if="${!#lists.isEmpty(historyList)}">
+      <div class="table-scroll">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>シリアルナンバー</th>
+              <th>カテゴリ</th>
+              <th>製品名</th>
+              <th>使用者</th>
+              <th>貸出日</th>
+              <th>返却日</th>
+              <th>返却予定日</th>
+              <th>分類</th>
+              <th>削除済</th>
+            </tr>
+          </thead>
 
+          <tbody>
+            <tr th:each="history : ${historyList}">
+              <td th:text="${history.stockCode}"></td>
+              <td th:text="${history.categoryName}"></td>
+              <td th:text="${history.productName}"></td>
+              <td th:text="${history.staffName}"></td>
+              <td th:text="${history.startDate}"></td>
+              <td th:text="${history.returnDate}"></td>
+              <td th:text="${history.limitDate}"></td>
+              <td th:text="${history.ownershipType}"></td>
+              <td th:text="${history.deletedLabel}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-			<tr th:each="history : ${historyList}">
-				<td th:text="${history.stockCode}"></td> <!--シリアルナンバー-->
-				<td th:text="${history.categoryName}"></td> <!--カテゴリ-->
-				<td th:text="${history.productName}"></td> <!--製品名-->
-				<td th:text="${history.staffName}"></td> <!--使用者-->
-				<td th:text="${history.startDate}"></td> <!--貸出日-->
-				<td th:text="${history.returnDate}"></td> <!--返却日-->
-				<td th:text="${history.limitDate}"></td> <!--返却予定日-->
-				<td th:text="${history.ownershipType}"></td> <!--分類-->
-				<td th:text="${history.deletedLabel}"></td> <!--削除済み-->
-			</tr>
-		</table>
-
-	</div>
-	<button onclick="history.back()">戻る</button>
-
+    <div class="footer-actions">
+      <a class="btn btn--back" th:href="@{/index}">戻る</a>
+    </div>
+  </main>
 </body>
-
 </html>
