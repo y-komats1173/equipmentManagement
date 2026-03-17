@@ -22,10 +22,39 @@
 		SELECT
 		staff_no AS staffNo,
 		name AS name,
-		password AS password,
+		password AS
+		password,
 		auth_no AS authNo,
 		del AS del
 		FROM staff_data
-		WHERE staff_no = #{staffNo}
+		WHERE staff_no =
+		#{staffNo}
 	</select>
+
+	<!-- 権限検索 -->
+	<select id="authFind"
+		resultType="jp.co.sss.equipment.entity.AuthMaster">
+		SELECT
+		auth_no AS authNo,
+		auth_name AS authName,
+		remarks AS
+		remarks,
+		del AS del
+		FROM auth_master
+	</select>
+
+
+	<!-- 権限検索 -->
+	<select id="authFindById"
+		resultType="jp.co.sss.equipment.entity.AuthMaster">
+		SELECT
+		auth_no AS authNo,
+		auth_name AS authName,
+		remarks AS remarks,
+		del AS del
+		FROM auth_master
+		WHERE auth_no = #{authNo}
+	</select>
+
+
 </mapper>
