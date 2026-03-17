@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>社員情報入力</title>
+</head>
+
+<body>
+	<form th:action="@{/user/regist/check}" method="post" th:object="${userRegistForm}">
+
+		<div>
+			社員名
+			<input type="text" th:field="*{name}">
+		</div>
+
+		<div>
+			権限
+			<select th:field="*{auth}">
+				<option value="">選択してください</option>
+				<option th:each="auth : ${authList}" th:value="${auth.authNo}" th:text="${auth.authName}">
+				</option>
+			</select>
+		</div>
+
+		<div>
+			パスワード
+			<input type="password" th:field="*{password}">
+		</div>
+
+
+
+		<button type="submit">確認</button>
+
+	</form>
+</body>
+
+</html>
