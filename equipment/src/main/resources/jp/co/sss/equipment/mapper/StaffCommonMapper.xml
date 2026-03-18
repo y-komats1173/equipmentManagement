@@ -50,11 +50,29 @@
 		SELECT
 		auth_no AS authNo,
 		auth_name AS authName,
-		remarks AS remarks,
+		remarks AS
+		remarks,
 		del AS del
 		FROM auth_master
 		WHERE auth_no = #{authNo}
 	</select>
 
+	<!-- ユーザー登録処理 -->
+	<insert id="userRegistInsert"
+		parameterType="jp.co.sss.equipment.entity.StaffData">
+		INSERT INTO staff_data (
+		staff_no,
+		name,
+		password,
+		auth_no,
+		del
+		) VALUES (
+		#{staffNo},
+		#{name},
+		#{password},
+		#{authNo},
+		#{del}
+		)
+	</insert>
 
 </mapper>
