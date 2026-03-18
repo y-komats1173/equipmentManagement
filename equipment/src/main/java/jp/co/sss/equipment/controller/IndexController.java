@@ -40,7 +40,7 @@ public class IndexController {
 
 		List<EquipListViewDto> indexlist = indexService.indexFind();//サービス層のindexFindメソッドを呼び出し値をリストに返す
 		model.addAttribute("items", indexlist);//indexに情報を渡す　”items”をindex.htmlのth:eactに一致させる
-		StaffData user = (StaffData) session.getAttribute("user");
+		StaffData user = (StaffData) session.getAttribute("user"); //セッションからユーザ情報を取得
 		model.addAttribute("loginUser", user);
 
 		return "index/index"; //tenmplatsファルダーのindexのindex.htmlが呼出される
