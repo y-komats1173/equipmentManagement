@@ -10,7 +10,12 @@
 	<h1>登録確認画面</h1>
 
 	<form th:action="@{/user/regist/complete}" method="post" th:object="${userRegistForm}">
-		
+
+		<div>
+			ID：
+			<span th:text="*{staffNo}"></span>
+		</div>
+
 		<div>
 			社員名：
 			<span th:text="*{name}"></span>
@@ -26,6 +31,7 @@
 			<span th:text="${authMaster.authName}"></span>
 		</div>
 
+		<input type="hidden" th:field="*{staffNo}">
 		<input type="hidden" th:field="*{name}">
 		<input type="hidden" th:field="*{password}">
 		<input type="hidden" th:field="*{auth}">
