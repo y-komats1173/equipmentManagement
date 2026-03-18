@@ -35,9 +35,5 @@ public interface StaffCommonMapper {
 	 */
 	AuthMaster authFindById(Integer authNo);
 	
-	/**
-	 * ユーザーの登録処理
-	 * @param staffData
-	 */
-	void userRegistInsert(StaffData staffData);
+	
 }
