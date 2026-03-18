@@ -100,9 +100,11 @@ public class BorrowingController {
 	    }
 
 	    try {
+	    	//貸出処理の実行
 	        borrowingService.borrowingEquipment(equipmentIdList, staffNoMap, startDateMap, limitDateMap);
 	        redirectAttributes.addFlashAttribute("updateMessage", "貸出処理が完了しました。");
 	    } catch (IllegalStateException e) { 
+	    	//エラーが発生した場合の処理
 	        redirectAttributes.addFlashAttribute("errorMessages", List.of("他のブラウザで更新されました。"));
 	        redirectAttributes.addAttribute("name", name);
 	        return "redirect:/borrowing/view";
