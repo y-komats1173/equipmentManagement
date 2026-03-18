@@ -38,8 +38,6 @@ public class UserRegistController {
 		List<AuthMaster> authList = staffCommonService.authFind();
 		model.addAttribute("authList", authList);
 		model.addAttribute("userRegistForm", new UserRegistForm());
-
-		System.out.println(authList);
 		return "userRegist/userInput";
 	}
 	
