@@ -1,7 +1,9 @@
 package jp.co.sss.equipment.util;
 
+import jp.co.sss.equipment.entity.StaffData;
 import jp.co.sss.equipment.entity.StockMaster;
 import jp.co.sss.equipment.form.EquipmentForm;
+import jp.co.sss.equipment.form.UserRegistForm;
 
 /**
  * Beanコピー用クラス
@@ -52,5 +54,17 @@ public class BeanCopy {
 	    form.setStockCode(stockMaster.getStockCode());
 
 	    return form;
+	}
+	
+	/**
+	 * Formクラスからentityに値をコピー
+	 */
+	public static StaffData userCopyForm (UserRegistForm registform) {
+		StaffData entity = new StaffData();
+		entity.setStaffNo(registform.getStaffNo());
+		entity.setName(registform.getName());
+		entity.setPassword(registform.getPassword());
+		entity.setAuthNo(registform.getAuth());
+		return entity;
 	}
 }
