@@ -48,6 +48,8 @@ public class EquipmentUpdateController {
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("equipmentForm", form);
 		model.addAttribute("detailName", stockMaster);
+		
+		//シリアルで備品の取得
 		StockMaster updateform = equimentUpdateService.equimentFind(serialNo);
 		//ログイン機能追加後は、セッションチェックを実装
 		return "equipmentUpdate/equipmentUpdateInput";
