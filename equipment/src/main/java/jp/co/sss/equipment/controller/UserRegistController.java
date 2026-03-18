@@ -57,9 +57,11 @@ public class UserRegistController {
 		model.addAttribute("authList", authList);
 
 		// 入力チェック
-		if (result.hasErrors()) {
-			return "userRegist/input";
+		if (result.hasErrors() || userRegistService.idCheck(registform.getStaffNo())) {
+			result.rejectValue("staffNo", null, "このIDはすでに使用されています");
+			return "userRegist/userInput";
 		}
+		
 		
 		//権限IDから権限情報を取得
 		AuthMaster authMaster = null;
@@ -71,8 +73,6 @@ public class UserRegistController {
 		}
 		//ユーザー登録情報をセッションに保存
 		model.addAttribute("userRegistForm", registform);
-		
-		System.out.println(registform);
 
 		return "userRegist/check";
 	}
