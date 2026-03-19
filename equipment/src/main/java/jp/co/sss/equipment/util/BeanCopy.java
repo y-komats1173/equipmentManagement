@@ -57,14 +57,29 @@ public class BeanCopy {
 	}
 	
 	/**
+	 * ユーザー情報
 	 * Formクラスからentityに値をコピー
 	 */
-	public static StaffData userCopyForm (UserRegistForm registform) {
+	public static StaffData userCopyEntity (UserRegistForm registform) {
 		StaffData entity = new StaffData();
 		entity.setStaffNo(registform.getStaffNo());
 		entity.setName(registform.getName());
 		entity.setPassword(registform.getPassword());
 		entity.setAuthNo(registform.getAuth());
 		return entity;
+	}
+	
+	/**
+	 * ユーザー情報
+	 * entityからformにコピー
+	 */
+	public static UserRegistForm userCopyForm(StaffData staffData) {
+		 UserRegistForm form = new UserRegistForm();
+	        form.setOldStaffNo(staffData.getStaffNo());
+	        form.setStaffNo(staffData.getStaffNo());
+	        form.setName(staffData.getName());
+	        form.setPassword(staffData.getPassword());
+	        form.setAuth(staffData.getAuthNo());
+	        return form;
 	}
 }
