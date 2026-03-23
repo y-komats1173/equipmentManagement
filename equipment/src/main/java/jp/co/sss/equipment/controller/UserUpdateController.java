@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jp.co.sss.equipment.entity.AuthMaster;
 import jp.co.sss.equipment.entity.StaffData;
-import jp.co.sss.equipment.form.UserRegistForm;
+import jp.co.sss.equipment.form.UserForm;
 import jp.co.sss.equipment.service.StaffCommonService;
 import jp.co.sss.equipment.service.UserRegistService;
+import jp.co.sss.equipment.service.UserUpdateService;
 import jp.co.sss.equipment.util.BeanCopy;
 
 /**
@@ -33,6 +34,9 @@ public class UserUpdateController {
 	@Autowired
 	UserRegistService userRegistService;
 	
+	@Autowired
+	UserUpdateService userUpdateService;
+	
 	/**
 	 * 編集画面遷移
 	 */
@@ -45,7 +49,7 @@ public class UserUpdateController {
 		StaffData staffData = staffCommonService.staffFindIndividual(staffNo);
 
 		// entity → form にコピー
-		UserRegistForm form = BeanCopy.userCopyForm(staffData);
+		UserForm form = BeanCopy.userCopyForm(staffData);
 		model.addAttribute("userRegistForm", form);
 
 		System.out.println(staffData);
@@ -59,7 +63,7 @@ public class UserUpdateController {
 	 */
 	@PostMapping("user/update/check")
 	public String updateCheck(
-	        @Valid @ModelAttribute("userRegistForm") UserRegistForm registForm,
+	        @Valid @ModelAttribute("userRegistForm") UserForm registForm,
 	        BindingResult result,
 	        Model model) {
 
@@ -77,7 +81,7 @@ public class UserUpdateController {
 
 	    if (oldStaffNo != null
 	            && !oldStaffNo.equals(registForm.getStaffNo())
-	            && userRegistService.idCheck(registForm.getStaffNo())) {
+	            && staffCommonService.idCheck(registForm.getStaffNo())) {
 
 	        result.rejectValue("staffNo", null, "このIDはすでに使用されています");
 	        return "userUpdate/input";
@@ -92,5 +96,14 @@ public class UserUpdateController {
 	    model.addAttribute("userRegistForm", registForm);
 
 	    return "userUpdate/check";
+	}
+	
+	/**
+	 * 完了画面（UPDATE 処理）
+	 */
+	@PostMapping("user/update/complete")
+	public String updateComplete(UserForm updateForm, Model model) {
+		userUpdateService.userUpdate(updateForm);
+		return "userUpdate/complete";
 	}
 }
