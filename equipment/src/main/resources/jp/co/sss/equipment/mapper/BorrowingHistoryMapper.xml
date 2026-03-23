@@ -40,6 +40,7 @@
 		borrow_history_view
 
 		<where>
+		<!-- 部品コード、部品名、貸出者名は部分一致 -->
   <if test="stockCode != null and stockCode != ''">
     AND stock_code LIKE CONCAT('%', #{stockCode}, '%')
   </if>
@@ -56,6 +57,7 @@
     AND staffName LIKE CONCAT('%', #{staffName}, '%')
   </if>
 
+<!-- 日付は範囲指定 -->
   <if test="fromDate != null">
     AND start_date &gt;= #{fromDate}
   </if>
@@ -85,6 +87,7 @@
     AND (
       <foreach collection="deletedStatuses" item="d" separator=" OR ">
         <choose>
+        <!-- 「未削除」が選択された場合は、deleted_labelがNULLまたは空文字のレコードを対象とする -->
           <when test="d == '未削除'">
             (deleted_label IS NULL OR deleted_label = '')
           </when>
@@ -116,6 +119,7 @@
 				</choose>
 
 				<choose>
+				<!-- ソート方向の指定がない場合は返却日DESC -->
 					<when test="sortDir == 'asc'"> ASC</when>
 					<otherwise> DESC</otherwise>
 				</choose>
