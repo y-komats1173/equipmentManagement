@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.sss.equipment.entity.AuthMaster;
-import jp.co.sss.equipment.form.UserRegistForm;
+import jp.co.sss.equipment.form.UserForm;
 import jp.co.sss.equipment.service.StaffCommonService;
 import jp.co.sss.equipment.service.UserRegistService;
 
@@ -37,7 +37,7 @@ public class UserRegistController {
 		//権限情報の取得
 		List<AuthMaster> authList = staffCommonService.authFind();
 		model.addAttribute("authList", authList);
-		model.addAttribute("userRegistForm", new UserRegistForm());
+		model.addAttribute("userRegistForm", new UserForm());
 		return "userRegist/userInput";
 	}
 	
@@ -46,7 +46,7 @@ public class UserRegistController {
 	 */
 	@PostMapping("user/regist/check")
 	public String registCheck(
-			@Valid @ModelAttribute UserRegistForm registform,
+			@Valid @ModelAttribute UserForm registform,
 			BindingResult result,
 			RedirectAttributes redirectAttributes,
 			Model model) {
@@ -55,7 +55,7 @@ public class UserRegistController {
 		model.addAttribute("authList", authList);
 
 		// 入力チェック
-		if (result.hasErrors() || userRegistService.idCheck(registform.getStaffNo())) {
+		if (result.hasErrors() || staffCommonService.idCheck(registform.getStaffNo())) {
 			result.rejectValue("staffNo", null, "このIDはすでに使用されています");
 			return "userRegist/userInput";
 		}
@@ -79,7 +79,7 @@ public class UserRegistController {
 	 * 登録処理(完了画面)
 	 */
 	@PostMapping("user/regist/complete")
-	public String registComplete(UserRegistForm registform) {
+	public String registComplete(UserForm registform) {
 		//ユーザー登録処理
 		userRegistService.userRegistInsert(registform);
 		return "userRegist/complete";
