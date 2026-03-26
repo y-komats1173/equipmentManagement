@@ -2,6 +2,7 @@ package jp.co.sss.equipment.controller;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jp.co.sss.equipment.dto.PasswordCheckDto;
 import jp.co.sss.equipment.entity.AuthMaster;
 import jp.co.sss.equipment.entity.StaffData;
 import jp.co.sss.equipment.form.UserForm;
@@ -27,20 +29,20 @@ import jp.co.sss.equipment.util.BeanCopy;
 
 @Controller
 public class UserUpdateController {
-	
+
 	@Autowired
 	StaffCommonService staffCommonService;
-	
+
 	@Autowired
 	UserRegistService userRegistService;
-	
+
 	@Autowired
 	UserUpdateService userUpdateService;
-	
+
 	/**
 	 * 編集画面遷移
 	 */
-	@GetMapping("user/update/input/{staffNo}")
+	@GetMapping("/user/update/input/{staffNo}")
 	public String updateInput(@PathVariable Integer staffNo, Model model) {
 		List<AuthMaster> authList = staffCommonService.authFind();
 		model.addAttribute("authList", authList);
@@ -50,60 +52,97 @@ public class UserUpdateController {
 
 		// entity → form にコピー
 		UserForm form = BeanCopy.userCopyForm(staffData);
-		model.addAttribute("userRegistForm", form);
-
-		System.out.println(staffData);
-		System.out.println(form);
+		model.addAttribute("userForm", form);
 
 		return "userUpdate/input";
 	}
-	
+
 	/**
 	 * 編集確認画面
 	 */
-	@PostMapping("user/update/check")
+	@PostMapping("/user/update/check")
 	public String updateCheck(
-	        @Valid @ModelAttribute("userRegistForm") UserForm registForm,
-	        BindingResult result,
-	        Model model) {
+			@Valid @ModelAttribute("userForm") UserForm updateForm,
+			BindingResult result,
+			Model model,
+			HttpSession session
+			) {
 
-	    // 権限情報の取得
-	    List<AuthMaster> authList = staffCommonService.authFind();
-	    model.addAttribute("authList", authList);
+		// 権限情報の取得
+		List<AuthMaster> authList = staffCommonService.authFind();
+		model.addAttribute("authList", authList);
 
-	    // 入力エラー
-	    if (result.hasErrors()) {
-	        return "userUpdate/input";
-	    }
+		// 入力エラー
+		if (result.hasErrors()) {
+			return "userUpdate/input";
+		}
 
-	    // 元のIDと変更後IDを比較
-	    Integer oldStaffNo = registForm.getOldStaffNo();
+		// 元のIDと変更後IDを比較
+		if (staffCommonService.isDuplicateStaffNo(
+				updateForm.getOldStaffNo(),
+				updateForm.getStaffNo())) {
 
-	    if (oldStaffNo != null
-	            && !oldStaffNo.equals(registForm.getStaffNo())
-	            && staffCommonService.idCheck(registForm.getStaffNo())) {
+			result.rejectValue("staffNo", null, "このIDはすでに使用されています");
+			return "userUpdate/input";
+		}
+		
+		// ログインユーザー取得
+		StaffData loginUser = (StaffData) session.getAttribute("user");
 
-	        result.rejectValue("staffNo", null, "このIDはすでに使用されています");
-	        return "userUpdate/input";
-	    }
+		// パスワード更新チェック
+		PasswordCheckDto passwordCheck = userUpdateService.checkPasswordUpdate(updateForm, loginUser);
 
-	    // 権限IDから権限情報を取得
-	    if (registForm.getAuth() != null) {
-	        AuthMaster authMaster = staffCommonService.authFindById(registForm.getAuth());
-	        model.addAttribute("authMaster", authMaster);
-	    }
+		// パスワード変更不可チェック
+		if (passwordCheck.isPasswordChangeNotAllowed()) {
+			result.rejectValue("password", null, "自分以外のパスワードは変更できません");
+			return "userUpdate/input";
+		}
 
-	    model.addAttribute("userRegistForm", registForm);
+		// 現在のパスワード未入力チェック
+		if (passwordCheck.isCurrentPasswordRequired()) {
+			result.rejectValue("currentPassword", null, "現在のパスワードを入力してください");
+			return "userUpdate/input";
+		}
 
-	    return "userUpdate/check";
+		// 現在のパスワード一致チェック
+		if (passwordCheck.isCurrentPasswordInvalid()) {
+			result.rejectValue("currentPassword", null, "現在のパスワードが違います");
+			return "userUpdate/input";
+		}
+
+		// 権限IDから権限情報を取得
+		if (updateForm.getAuth() != null) {
+			AuthMaster authMaster = staffCommonService.authFindById(updateForm.getAuth());
+			model.addAttribute("authMaster", authMaster);
+		}
+
+		model.addAttribute("userRegistForm", updateForm);
+		
+		System.out.println("完了確認画面");
+		System.out.println(updateForm);
+		return "userUpdate/check";
 	}
-	
+
 	/**
 	 * 完了画面（UPDATE 処理）
 	 */
-	@PostMapping("user/update/complete")
-	public String updateComplete(UserForm updateForm, Model model) {
+	@PostMapping("/user/update/complete")
+	public String updateComplete(@ModelAttribute("userForm") UserForm updateForm,
+			HttpSession session) {
+		//更新処理
 		userUpdateService.userUpdate(updateForm);
+		
+		//ログインユーザー取得
+		StaffData loginUser = (StaffData) session.getAttribute("user");
+		
+		System.out.println("完了画面");
+		System.out.println(updateForm);
+			
+		// 自分自身を更新したならセッション更新
+		if (loginUser != null && loginUser.getStaffNo().equals(updateForm.getOldStaffNo())) {
+			StaffData newLoginUser = staffCommonService.staffFindIndividual(updateForm.getStaffNo());
+			session.setAttribute("user", newLoginUser);
+		}
 		return "userUpdate/complete";
 	}
 }
