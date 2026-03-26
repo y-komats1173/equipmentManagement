@@ -14,7 +14,7 @@
 			<th>名前</th>
 			<th>権限</th>
 		</tr>
-		
+
 		<tr th:each="staff : ${staffList}">
 			<td>
 				<a th:href="@{/user/detail/{staffNo}(staffNo=${staff.staffNo})}">
@@ -23,7 +23,7 @@
 			</td>
 			<td th:text="${staff.staffNo}"></td>
 			<td th:text="${staff.name}"></td>
-			<td th:text="${staff.authNo}"></td>
+			<td th:text="${staff.authName}"></td>
 		</tr>
 	</table>
 
