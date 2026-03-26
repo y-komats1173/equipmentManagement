@@ -1,11 +1,16 @@
-
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>更新完了</title>
 </head>
 <body>
+
+<h2>更新が完了しました</h2>
+
+<a th:href="@{/user/index}">
+    <button type="button">一覧へ戻る</button>
+</a>
 
 </body>
 </html>
