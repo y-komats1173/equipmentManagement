@@ -46,17 +46,22 @@ public class AdminAccountCheckFilter extends HttpFilter {
 		Integer targetStaffNo = null;
 
 		// POSTのform送信時
-		String staffNoParam = request.getParameter("staffNo");
-		if (staffNoParam != null && !staffNoParam.isBlank()) {
-			targetStaffNo = Integer.valueOf(staffNoParam);
+		String oldStaffNoParam = request.getParameter("oldStaffNo");
+		if (oldStaffNoParam != null && !oldStaffNoParam.isBlank()) {
+			targetStaffNo = Integer.valueOf(oldStaffNoParam);
+		} else {
+			String staffNoParam = request.getParameter("staffNo");
+			if (staffNoParam != null && !staffNoParam.isBlank()) {
+				targetStaffNo = Integer.valueOf(staffNoParam);
+			}
 		}
 		// GET /user/detail/{staffNo} のとき
-		else if (path.startsWith("/user/detail/")) {
+		if (targetStaffNo == null && path.startsWith("/user/detail/")) {
 			String[] parts = path.split("/");
 			targetStaffNo = Integer.valueOf(parts[3]);
 		}
 		// GET /user/update/input/{staffNo}
-		else if (path.startsWith("/user/update/input/")) {
+		if (targetStaffNo == null && path.startsWith("/user/update/input/")) {
 			String[] parts = path.split("/");
 			targetStaffNo = Integer.valueOf(parts[4]);
 		}
@@ -64,7 +69,7 @@ public class AdminAccountCheckFilter extends HttpFilter {
 		boolean accessFlg = false;
 
 		// 管理者なら許可
-		if (authNo != null && authNo == 2) {
+		if (authNo != null && (authNo == 1 || authNo == 2)) {
 			accessFlg = true;
 		}
 		// 本人なら許可
@@ -76,16 +81,7 @@ public class AdminAccountCheckFilter extends HttpFilter {
 			response.sendRedirect(contextPath + "/");
 			return;
 		}
-		
-		System.out.println("=== AdminAccountCheckFilter ===");
-		System.out.println("requestURI=" + requestURI);
-		System.out.println("path=" + path);
-		System.out.println("requestMethod=" + requestMethod);
-		System.out.println("staffNoParam=" + staffNoParam);
-		System.out.println("loginStaffNo=" + loginStaffNo);
-		System.out.println("authNo=" + authNo);
-		System.out.println("targetStaffNo=" + targetStaffNo);
-		System.out.println("accessFlg=" + accessFlg);
+	
 
 		chain.doFilter(request, response);
 	}
