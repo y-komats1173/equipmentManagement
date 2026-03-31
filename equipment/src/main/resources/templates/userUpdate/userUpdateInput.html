@@ -20,7 +20,6 @@
 			<form th:action="@{/user/update/check}" th:object="${userForm}" method="post">
 
 				<input type="hidden" th:field="*{oldStaffNo}">
-				<input type="hidden" th:field="*{auth}">
 
 				<div class="form-row" th:if="${session.user.staffNo == userForm.oldStaffNo}">
 					<label for="staffNo">ID</label>
@@ -75,9 +74,7 @@
 
 				<div class="button-area">
 					<button type="submit">確認</button>
-					<a th:href="@{/user/index}">
-						<button type="button">戻る</button>
-					</a>
+					<button type="button" onclick="location.href='/user/index'">戻る</button>
 				</div>
 
 			</form>

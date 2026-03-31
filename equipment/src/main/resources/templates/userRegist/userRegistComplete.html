@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/user/completeLayout.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<title>ユーザー登録完了</title>
 </head>
+
 <body>
+	<header>
+		<div th:replace="~{common/header :: layout-header}"></div>
+	</header>
+
+	<div th:replace="~{common/layout :: header}"></div>
+
+	<div class="complete-page">
+		<h2>ユーザー登録が完了しました</h2>
+
+		<a th:href="@{/user/index}">
+			<button type="button">一覧へ戻る</button>
+		</a>
+	</div>
 
 </body>
+
 </html>

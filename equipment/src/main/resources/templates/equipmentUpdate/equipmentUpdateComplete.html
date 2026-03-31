@@ -3,15 +3,21 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/user/completeLayout.css}">
+			<link rel="stylesheet" th:href="@{/css/common.css}">
 	<title>編集完了</title>
 </head>
 
 <body>
 	<div th:replace="~{common/layout :: header}"></div>
-	<h1>備品の編集が完了しました</h1>
 
-	<a th:href="@{/individual/detail(serialNo=${parentStockCode})}">詳細に戻る</a>
+	<div class="complete-page">
+		<h1>備品の編集が完了しました</h1>
+
+		<a th:href="@{/individual/detail(serialNo=${parentStockCode})}">
+			<button type="button">詳細に戻る</button>
+		</a>
+	</div>
 
 </body>
 

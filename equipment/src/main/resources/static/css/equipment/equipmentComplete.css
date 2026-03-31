@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+.complete-page {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.complete-page h1,
+.complete-page h2 {
+    margin-bottom: 20px;
+}
+
+.complete-page p {
+    margin-bottom: 20px;
+}
+
+.complete-page form,
+.complete-page a {
+    margin-top: 15px;
+}
+
+.complete-page input[type="submit"],
+.complete-page button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
