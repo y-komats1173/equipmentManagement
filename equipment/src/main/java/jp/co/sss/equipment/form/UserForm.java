@@ -31,6 +31,9 @@ public class UserForm {
     /** パスワード */
     private String password;
     
+    /**確認パスワード*/
+    private String checkPassword;
+    
     /**編集時の元のID*/
     private Integer oldStaffNo;
 }
