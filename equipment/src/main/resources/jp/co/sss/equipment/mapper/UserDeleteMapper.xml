@@ -1,1 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapperインターフェスと修飾名を一致させる -->
+<mapper namespace="jp.co.sss.equipment.mapper.UserDeleteMapper">
+
+	<!-- ユーザーの論理削除 -->
+	<update id="userDelete"
+		parameterType="jp.co.sss.equipment.entity.StaffData">
+
+		UPDATE staff_data
+		SET del = 1
+		WHERE staff_no = #{staffNo}
+	</update>
+</mapper>
