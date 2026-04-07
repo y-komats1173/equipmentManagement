@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/topMenu.css}">
+	<title>管理者メニュー</title>
+</head>
+
+<body>
+	<div th:replace="~{common/layout :: header}"></div>
+
+	<main class="top-menu-container">
+		<h1>管理者メニュー</h1>
+
+		<nav class="top-menu-list">
+			<a th:href="@{/index}">備品一覧</a>
+			<a th:href="@{/equipment/regist/input}">備品登録</a>
+			<a th:href="@{/equipment/history}">貸出履歴</a>
+			<a th:href="@{/user/index}">ユーザー一覧</a>
+			<a th:href="@{/user/regist/input}">ユーザー登録</a>
+		</nav>
+	</main>
+</body>
+
+</html>
