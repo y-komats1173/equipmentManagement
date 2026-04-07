@@ -58,7 +58,7 @@ public class StaffCommonService {
 	 */
 	public boolean idCheck(Integer staffNo) {
 		//ユーザーの取得
-		List<StaffData> staffData = staffCommonMapper.staffFind();
+		List<StaffData> staffData = staffCommonMapper.allIdFind();
 		//idの一致検索
 		for (StaffData staff : staffData) {
 			if (staff.getStaffNo().equals(staffNo)) {
