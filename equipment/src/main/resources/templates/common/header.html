@@ -12,7 +12,18 @@
 
 		<!-- 左側 -->
 		<div class="nav-left">
-			<a th:href="@{/index}" class="logo">備品管理システム</a>
+			<a th:if="${session.user != null and session.user.authNo != 99}"
+			   th:href="@{/topMenu}"
+			   class="logo">
+				備品管理システム
+			</a>
+
+			<a th:if="${session.user == null or session.user.authNo == 99}"
+			   th:href="@{/index}"
+			   class="logo">
+				備品管理システム
+			</a>
+		</div>
 
 			<!-- 備品メニュー -->
 			<div class="dropdown" th:if="${session.user != null}">
