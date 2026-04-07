@@ -37,9 +37,10 @@
 				<button type="submit" class="delete-btn">削除</button>
 			</form>
 
-			<a th:href="@{/user/detail/{staffNo}(staffNo=${staff.staffNo})}" class="back-btn">
-				戻る
-			</a>
+			<form th:action="@{/user/detail/{staffNo}(staffNo=${staff.staffNo})}" method="get">
+				<button type="submit" class="back-btn">戻る</button>
+			</form>
+
 		</div>
 	</main>
 </body>
