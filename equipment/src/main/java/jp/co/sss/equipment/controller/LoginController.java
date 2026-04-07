@@ -74,6 +74,15 @@ public class LoginController {
 			return "login";
 		}
 	}
+	
+	/**
+	 * トップメニュー
+	 * @return
+	 */
+	@GetMapping("/topMenu")
+	public String topMenu() {
+	    return "topMenu";
+	}
 
 	/**
 	 * ログアウト処理
