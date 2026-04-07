@@ -42,6 +42,17 @@ public class UserRegistController {
 	}
 	
 	/**
+	 * チェック画面から戻る
+	 */
+	@PostMapping("/user/regist/input")
+	public String userRegistBack(@ModelAttribute UserForm userRegistForm, Model model) {
+		model.addAttribute("userRegistForm", userRegistForm);
+		model.addAttribute("authList", staffCommonService.authFind());
+		return "userRegist/userRegistInput";
+	}
+	
+	
+	/**
 	 * 入力確認画面
 	 */
 	@PostMapping("user/regist/check")
