@@ -9,41 +9,41 @@
 </head>
 
 <body>
-	<div class="login_container">
-		<div th:replace="~{common/layout :: header}"></div>
-		<h3>ログイン</h3>
-		<form th:action="@{/login}" th:object="${loginForm}" method="post">
-			<div th:if="${errMessage}" th:text="${errMessage}" style="color:red"></div>
+	<div th:replace="~{common/layout :: header}"></div>
 
-			<div class="login_form">
-				<div class="login_label">社員ID</div>
-				<div class="login_input">
-					<div th:if="${#fields.hasErrors('empId')}"
-						 th:errors="*{empId}"
-						 style="color:red; margin-bottom:5px;"></div>
-					<input type="text" th:field="*{empId}" />
+	<main class="login_container">
+		<div class="login_box">
+			<h3>ログイン</h3>
+
+			<form th:action="@{/login}" th:object="${loginForm}" method="post">
+				<div th:if="${errMessage}" class="error-message" th:text="${errMessage}"></div>
+
+				<div class="login_form">
+					<div class="login_label">社員ID</div>
+					<div class="login_input">
+						<div th:if="${#fields.hasErrors('empId')}"
+							 th:errors="*{empId}"
+							 class="field-error"></div>
+						<input type="text" th:field="*{empId}" />
+					</div>
 				</div>
-			</div>
 
-			<div class="login_form">
-				<div class="login_label">パスワード</div>
-				<div class="login_input">
-					<div th:if="${#fields.hasErrors('empPass')}"
-						 th:errors="*{empPass}"
-						 style="color:red; margin-bottom:5px;"></div>
-					<input type="password" th:field="*{empPass}" />
+				<div class="login_form">
+					<div class="login_label">パスワード</div>
+					<div class="login_input">
+						<div th:if="${#fields.hasErrors('empPass')}"
+							 th:errors="*{empPass}"
+							 class="field-error"></div>
+						<input type="password" th:field="*{empPass}" />
+					</div>
 				</div>
-			</div>
 
-			<div class="login_form">
-				<div class="login_label"></div>
-				<div class="login_input">
+				<div class="login_button_area">
 					<input type="submit" value="ログイン" />
 				</div>
-			</div>
-		</form>
-	</div>
+			</form>
+		</div>
+	</main>
 </body>
-
 
 </html>
