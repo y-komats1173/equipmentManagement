@@ -25,39 +25,7 @@
 			</a>
 		</div>
 
-			<!-- 備品メニュー -->
-			<div class="dropdown" th:if="${session.user != null}">
 
-				<div id="equipmentMenu" class="dropdown-menu">
-					<a th:if="${session.user.authNo != 4 and session.user.authNo != 99}"
-					   th:href="@{/equipment/regist/input}">
-						備品登録
-					</a>
-
-					<a th:if="${session.user.authNo != 4 and session.user.authNo != 99}"
-					   th:href="@{/equipment/history}">
-						貸出履歴
-					</a>
-				</div>
-			</div>
-
-			<!-- ユーザーメニュー -->
-			<div class="dropdown" th:if="${session.user != null}">
-
-				<div id="userMenu" class="dropdown-menu">
-					<a th:if="${session.user.authNo != 4 and session.user.authNo != 99}"
-					th:href="@{/user/index}">
-						ユーザー一覧
-					</a>
-
-					<a th:if="${session.user.authNo != 4 and session.user.authNo != 99}"
-					th:href="@{/user/regist/input}">
-						ユーザー登録
-					</a>
-				</div>
-			</div>
-
-		</div>
 
 		<!-- 右側 -->
 		<div class="nav-right" th:if="${session.user != null}">
