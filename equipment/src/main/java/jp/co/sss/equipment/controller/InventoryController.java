@@ -37,37 +37,34 @@ public class InventoryController {
 	 */
 	@GetMapping("equipment/inventory")
 	public String inventoryView(@ModelAttribute("searchForm") EquipmentSearchForm form,
-			Model model) {
+	        Model model) {
 
-		// カテゴリ一覧を取得
-		model.addAttribute("categoryList", equipmentCommonService.categoryFind());
+	    // カテゴリ一覧を取得
+	    model.addAttribute("categoryList", equipmentCommonService.categoryFind());
 
-		// 検索結果格納用リスト（null回避のため初期化）
-		List<EquipmentSearchDto> resultList = new ArrayList<>();
+	    // 最初は全件
+	    List<EquipmentSearchDto> resultList = equipmentCommonService.equipmentAllFind();
 
-		// 検索条件が1つでも入力されているか判定
-		boolean hasCondition = (form.getStockCode() != null && !form.getStockCode().isBlank()) ||
-				(form.getName() != null && !form.getName().isBlank()) ||
-				form.getStockType() != null ||
-				(form.getStatus() != null && !form.getStatus().isBlank()) ||
-				form.getOwnershipType() != null;
+	    // 検索条件が1つでも入力されているか判定
+	    boolean hasCondition = (form.getStockCode() != null && !form.getStockCode().isBlank()) ||
+	            (form.getName() != null && !form.getName().isBlank()) ||
+	            form.getStockType() != null ||
+	            (form.getStatus() != null && !form.getStatus().isBlank()) ||
+	            form.getOwnershipType() != null;
 
-		// 条件がある場合のみ検索実行
-		if (hasCondition) {
-			resultList = equipmentSearchService.search(form);
-		}
+	    // 条件がある場合のみ検索結果で上書き
+	    if (hasCondition) {
+	        resultList = equipmentSearchService.search(form);
+	    }
 
-		// 棚卸し用フォーム生成
-		InventoryForm inventoryForm = new InventoryForm();
-		inventoryForm.setInventoryList(resultList);
+	    // 棚卸し用フォーム生成
+	    InventoryForm inventoryForm = new InventoryForm();
+	    inventoryForm.setInventoryList(resultList);
 
-		// inventoryForm：チェックボックス操作用
-		// resultList：表示用（※現状はinventoryFormで代替可能）
-		model.addAttribute("resultList", resultList);
-		model.addAttribute("inventoryForm", inventoryForm);
+	    model.addAttribute("resultList", resultList);
+	    model.addAttribute("inventoryForm", inventoryForm);
 
-		// 棚卸し画面へ遷移
-		return "inventory/inventoryView";
+	    return "inventory/inventoryView";
 	}
 
 	/*
@@ -79,21 +76,22 @@ public class InventoryController {
 		List<EquipmentSearchDto> checkedList = new ArrayList<>();
 
 		for (EquipmentSearchDto dto : inventoryForm.getInventoryList()) {
-		    if (dto.isChecked()) {
-		        checkedList.add(dto);
-		    }
+			if (dto.isChecked()) {
+				checkedList.add(dto);
+			}
 		}
-
+		
+		//空の場合
 		if (checkedList.isEmpty()) {
 			model.addAttribute("message", "対象が選択されていません");
 			model.addAttribute("categoryList", equipmentCommonService.categoryFind());
 			model.addAttribute("inventoryForm", inventoryForm);
+			model.addAttribute("searchForm", new EquipmentSearchForm());
 			return "inventory/inventoryView";
 		}
 
 		model.addAttribute("checkedList", checkedList);
-
-		System.out.println(checkedList);
+		model.addAttribute("inventoryForm", inventoryForm);
 
 		return "inventory/inventoryCheck";
 	}
