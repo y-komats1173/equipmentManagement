@@ -3,10 +3,12 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<title>棚卸し</title>
 </head>
 
 <body>
+	<div th:replace="~{common/layout :: header}"></div>
 
 	<h1>棚卸し</h1>
 
@@ -27,9 +29,7 @@
 			<label>カテゴリ：</label>
 			<select th:field="*{stockType}">
 				<option value="">--選択--</option>
-				<option th:each="c : ${categoryList}"
-					th:value="${c.stockType}"
-					th:text="${c.name}">
+				<option th:each="c : ${categoryList}" th:value="${c.stockType}" th:text="${c.name}">
 				</option>
 			</select>
 		</div>
@@ -67,6 +67,7 @@
 				<th>カテゴリ</th>
 				<th>状態</th>
 				<th>所有区分</th>
+				<th>最終確認日</th>
 			</tr>
 
 			<tr th:each="item, stat : *{inventoryList}">
@@ -79,10 +80,30 @@
 					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].stockCode}">
 				</td>
 
-				<td th:text="${item.name}"></td>
-				<td th:text="${item.categoryName}"></td>
-				<td th:text="${item.statusName}"></td>
-				<td th:text="${item.ownershipTypeName}"></td>
+				<td>
+					<span th:text="${item.name}"></span>
+					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].name}">
+				</td>
+
+				<td>
+					<span th:text="${item.categoryName}"></span>
+					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].categoryName}">
+				</td>
+
+				<td>
+					<span th:text="${item.statusName}"></span>
+					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].statusName}">
+				</td>
+
+				<td>
+					<span th:text="${item.ownershipTypeName}"></span>
+					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].ownershipTypeName}">
+				</td>
+
+				<td>
+					<span th:text="${item.confirmedDate}"></span>
+					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].confirmedDate}">
+				</td>
 			</tr>
 		</table>
 
@@ -94,4 +115,5 @@
 	</form>
 
 </body>
+
 </html>
