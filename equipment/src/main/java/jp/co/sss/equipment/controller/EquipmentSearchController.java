@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jp.co.sss.equipment.dto.EquipmentSearchDto;
 import jp.co.sss.equipment.form.EquipmentSearchForm;
+import jp.co.sss.equipment.form.InventoryForm;
 import jp.co.sss.equipment.service.EquipmentCommonService;
 import jp.co.sss.equipment.service.EquipmentSearchService;
 
@@ -34,20 +35,30 @@ public class EquipmentSearchController {
 	        @ModelAttribute("searchForm") EquipmentSearchForm form,
 	        Model model) {
 
+		// カテゴリ一覧を取得
 	    model.addAttribute("categoryList", equipmentCommonService.categoryFind());
 
-	    boolean hasCondition =
-	            (form.getStockCode() != null && !form.getStockCode().isBlank()) ||
+	    // 最初は全件
+	    List<EquipmentSearchDto> resultList = equipmentCommonService.equipmentAllFind();
+
+	    // 検索条件が1つでも入力されているか判定
+	    boolean hasCondition = (form.getStockCode() != null && !form.getStockCode().isBlank()) ||
 	            (form.getName() != null && !form.getName().isBlank()) ||
 	            form.getStockType() != null ||
 	            (form.getStatus() != null && !form.getStatus().isBlank()) ||
 	            form.getOwnershipType() != null;
 
+	    // 条件がある場合のみ検索結果で上書き
 	    if (hasCondition) {
-	        List<EquipmentSearchDto> resultList = equipmentSearchService.search(form);
-	        model.addAttribute("resultList", resultList);
+	        resultList = equipmentSearchService.search(form);
 	    }
 
+	    // 棚卸し用フォーム生成
+	    InventoryForm inventoryForm = new InventoryForm();
+	    inventoryForm.setInventoryList(resultList);
+
+	    model.addAttribute("resultList", resultList);
+	    model.addAttribute("inventoryForm", inventoryForm);
 	    return "index/search";
 	}
 }
