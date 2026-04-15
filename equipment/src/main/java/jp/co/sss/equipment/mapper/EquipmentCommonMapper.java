@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import jp.co.sss.equipment.dto.EquipmentSearchDto;
 import jp.co.sss.equipment.entity.StockTypeMaster;
 
 /**
@@ -24,4 +25,10 @@ public interface EquipmentCommonMapper {
 	 * @return
 	 */
 	StockTypeMaster findByCategoryId(@Param("categoryId") Integer categoryId);
+
+	/**
+	 * 備品全件取得
+	 * @return
+	 */
+	List<EquipmentSearchDto> equipmentAllFind();
 }
