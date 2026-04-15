@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jp.co.sss.equipment.dto.EquipmentSearchDto;
 import jp.co.sss.equipment.entity.StockTypeMaster;
 import jp.co.sss.equipment.mapper.EquipmentCommonMapper;
 
@@ -30,5 +31,12 @@ public class EquipmentCommonService {
 	 */
 	public StockTypeMaster categoryFindCheck(Integer categoryId) {
 		return equipmentCommonMapper.findByCategoryId(categoryId);
+	}
+	
+	/*
+	 * 備品全件取得
+	 */
+	public List<EquipmentSearchDto> equipmentAllFind(){
+		return equipmentCommonMapper.equipmentAllFind();
 	}
 }
