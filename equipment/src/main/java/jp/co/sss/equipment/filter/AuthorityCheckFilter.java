@@ -58,7 +58,6 @@ public class AuthorityCheckFilter extends HttpFilter {
 		boolean isAdminUrl = path.startsWith("/equipment/regist") ||
 				path.startsWith("/equipment/update") ||
 				path.startsWith("/equipment/delete") ||
-				path.startsWith("/equipment/history") ||
 				(path.startsWith("/user") && !isMyUserUrl);
 
 
