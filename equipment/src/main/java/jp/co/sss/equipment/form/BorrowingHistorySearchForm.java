@@ -63,4 +63,7 @@ public class BorrowingHistorySearchForm {
 	/*["未削除", "削除済み"]*/
 	private List<String> deletedStatuses;
 	
+	/*使用者番号*/
+	private Integer staffNo;
+	
 }
