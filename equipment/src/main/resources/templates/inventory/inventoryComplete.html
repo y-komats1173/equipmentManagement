@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/equipment/inventoryComplete.css}">
 	<title>棚卸完了</title>
 </head>
 
@@ -11,18 +12,20 @@
 	<div th:replace="~{common/layout :: header}"></div>
 
 	<main class="complete-container">
-		<h1>棚卸完了</h1>
+		<div class="complete-card">
+			<h1 class="complete-title">棚卸完了</h1>
 
-		<p>棚卸し処理が正常に完了しました。</p>
+			<p class="complete-message">棚卸し処理が正常に完了しました。</p>
 
-		<div class="button-area">
-			<a th:href="@{/equipment/inventory}">
-				棚卸し画面へ戻る
-			</a>
+			<div class="button-area">
+				<a class="btn btn-primary" th:href="@{/equipment/inventory}">
+					棚卸し画面へ戻る
+				</a>
 
-			<a th:href="@{/index}">
-				メニューへ戻る
-			</a>
+				<a class="btn btn-secondary" th:href="@{/index}">
+					メニューへ戻る
+				</a>
+			</div>
 		</div>
 	</main>
 
