@@ -1,0 +1,97 @@
+@charset "UTF-8";
+@charset "UTF-8";
+
+main {
+	padding: 30px 40px;
+	box-sizing: border-box;
+}
+
+.page-title {
+	margin: 0 0 24px;
+	font-size: 28px;
+	color: #333333;
+}
+
+.form-area {
+	background-color: #ffffff;
+	padding: 24px;
+	border: 1px solid #dcdcdc;
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.inventory-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 24px;
+	background-color: #ffffff;
+}
+
+.inventory-table th,
+.inventory-table td {
+	border: 1px solid #cccccc;
+	padding: 12px 14px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 15px;
+}
+
+.inventory-table th {
+	background-color: #f3f6fa;
+	font-weight: bold;
+	color: #333333;
+}
+
+.inventory-table tr:nth-child(even) {
+	background-color: #fafafa;
+}
+
+.inventory-table td {
+	color: #444444;
+}
+
+.button-area {
+	display: flex;
+	justify-content: center;
+	gap: 16px;
+	margin-top: 20px;
+	flex-wrap: wrap;
+}
+
+.btn {
+	display: inline-block;
+	min-width: 140px;
+	padding: 12px 24px;
+	border: none;
+	border-radius: 8px;
+	text-decoration: none;
+	text-align: center;
+	font-size: 15px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+	box-sizing: border-box;
+}
+
+.btn:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-submit {
+	background-color: #2f80ed;
+	color: #ffffff;
+}
+
+.btn-submit:hover {
+	background-color: #1869d5;
+}
+
+.btn-back {
+	background-color: #6c757d;
+	color: #ffffff;
+}
+
+.btn-back:hover {
+	background-color: #545b62;
+}
