@@ -4,115 +4,134 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/equipment/inventory.css}">
 	<title>棚卸し</title>
 </head>
 
 <body>
 	<div th:replace="~{common/layout :: header}"></div>
 
-	<h1>棚卸し</h1>
+	<main class="search-page">
+		<h1>棚卸し</h1>
 
-	<p>棚卸日：<span th:text="${#temporals.format(T(java.time.LocalDate).now(), 'yyyy/MM/dd')}"></span></p>
-
-	<form th:action="@{/equipment/inventory}" method="get" th:object="${searchForm}">
-		<div>
-			<label>シリアル：</label>
-			<input type="text" th:field="*{stockCode}">
-		</div>
-
-		<div>
-			<label>備品名：</label>
-			<input type="text" th:field="*{name}">
-		</div>
-
-		<div>
-			<label>カテゴリ：</label>
-			<select th:field="*{stockType}">
-				<option value="">--選択--</option>
-				<option th:each="c : ${categoryList}" th:value="${c.stockType}" th:text="${c.name}">
-				</option>
-			</select>
-		</div>
-
-		<div>
-			<label>状態：</label>
-			<select th:field="*{status}">
-				<option value="">--選択--</option>
-				<option value="在庫">在庫</option>
-				<option value="貸出中">貸出中</option>
-			</select>
-		</div>
-
-		<div>
-			<label>所有区分：</label>
-			<select th:field="*{ownershipType}">
-				<option value="">--選択--</option>
-				<option value="1">会社所有</option>
-				<option value="2">リース</option>
-			</select>
-		</div>
-
-		<button type="submit">検索</button>
-		<button type="reset">クリア</button>
-	</form>
-
-	<hr>
-
-	<form th:action="@{/inventory/check}" method="post" th:object="${inventoryForm}">
-		<table border="1">
-			<tr>
-				<th>確認</th>
-				<th>シリアル</th>
-				<th>備品名</th>
-				<th>カテゴリ</th>
-				<th>状態</th>
-				<th>所有区分</th>
-				<th>最終確認日</th>
-			</tr>
-
-			<tr th:each="item, stat : *{inventoryList}">
-				<td>
-					<input type="checkbox" th:field="*{inventoryList[__${stat.index}__].checked}">
-				</td>
-
-				<td>
-					<span th:text="${item.stockCode}"></span>
-					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].stockCode}">
-				</td>
-
-				<td>
-					<span th:text="${item.name}"></span>
-					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].name}">
-				</td>
-
-				<td>
-					<span th:text="${item.categoryName}"></span>
-					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].categoryName}">
-				</td>
-
-				<td>
-					<span th:text="${item.statusName}"></span>
-					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].statusName}">
-				</td>
-
-				<td>
-					<span th:text="${item.ownershipTypeName}"></span>
-					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].ownershipTypeName}">
-				</td>
-
-				<td>
-					<span th:text="${item.confirmedDate}"></span>
-					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].confirmedDate}">
-				</td>
-			</tr>
-		</table>
-
-		<p th:if="${inventoryForm != null}">
-			対象件数：<span th:text="${#lists.size(inventoryForm.inventoryList)}"></span>
+		<p class="inventory-date">
+			棚卸日：
+			<span th:text="${#temporals.format(T(java.time.LocalDate).now(), 'yyyy/MM/dd')}"></span>
 		</p>
 
-		<button type="submit">更新確認</button>
-	</form>
+		<form th:action="@{/equipment/inventory}" method="get" th:object="${searchForm}" class="search-form">
+			<div class="form-row">
+				<label>シリアル番号</label>
+				<input type="text" th:field="*{stockCode}">
+			</div>
+
+			<div class="form-row">
+				<label>備品名</label>
+				<input type="text" th:field="*{name}">
+			</div>
+
+			<div class="form-row">
+				<label>カテゴリ</label>
+				<select th:field="*{stockType}">
+					<option value="">-- 選択してください --</option>
+					<option th:each="c : ${categoryList}" th:value="${c.stockType}" th:text="${c.name}"></option>
+				</select>
+			</div>
+
+			<div class="form-row">
+				<label>状態</label>
+				<select th:field="*{status}">
+					<option value="">-- 選択してください --</option>
+					<option value="在庫">在庫</option>
+					<option value="貸出中">貸出中</option>
+				</select>
+			</div>
+
+			<div class="form-row">
+				<label>所有区分</label>
+				<select th:field="*{ownershipType}">
+					<option value="">-- 選択してください --</option>
+					<option value="1">会社所有</option>
+					<option value="2">リース品</option>
+				</select>
+			</div>
+
+			<div class="button-area">
+				<button type="submit">検索</button>
+				<button type="reset" class="clear-button">クリア</button>
+			</div>
+		</form>
+
+		<div th:if="${inventoryForm != null}" class="search-result">
+			<h2>棚卸し対象一覧</h2>
+
+			<p class="target-count">
+				対象件数：
+				<span th:text="${#lists.size(inventoryForm.inventoryList)}"></span>
+				件
+			</p>
+
+			<p class="no-result" th:if="${#lists.isEmpty(inventoryForm.inventoryList)}">
+				検索結果はありません
+			</p>
+
+			<form th:action="@{/inventory/check}" method="post" th:object="${inventoryForm}">
+				<div class="table-container" th:if="${not #lists.isEmpty(inventoryForm.inventoryList)}">
+					<table class="result-table">
+						<tr>
+							<th>確認</th>
+							<th>シリアル番号</th>
+							<th>備品名</th>
+							<th>カテゴリ</th>
+							<th>状態</th>
+							<th>所有区分</th>
+							<th>最終確認日</th>
+						</tr>
+
+						<tr th:each="item, stat : *{inventoryList}">
+							<td>
+								<input type="checkbox" th:field="*{inventoryList[__${stat.index}__].checked}">
+							</td>
+
+							<td>
+								<span th:text="${item.stockCode}"></span>
+								<input type="hidden" th:field="*{inventoryList[__${stat.index}__].stockCode}">
+							</td>
+
+							<td>
+								<span th:text="${item.name}"></span>
+								<input type="hidden" th:field="*{inventoryList[__${stat.index}__].name}">
+							</td>
+
+							<td>
+								<span th:text="${item.categoryName}"></span>
+								<input type="hidden" th:field="*{inventoryList[__${stat.index}__].categoryName}">
+							</td>
+
+							<td>
+								<span th:text="${item.statusName}"></span>
+								<input type="hidden" th:field="*{inventoryList[__${stat.index}__].statusName}">
+							</td>
+
+							<td>
+								<span th:text="${item.ownershipTypeName}"></span>
+								<input type="hidden" th:field="*{inventoryList[__${stat.index}__].ownershipTypeName}">
+							</td>
+
+							<td>
+								<span th:text="${item.confirmedDate}"></span>
+								<input type="hidden" th:field="*{inventoryList[__${stat.index}__].confirmedDate}">
+							</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="button-area" th:if="${not #lists.isEmpty(inventoryForm.inventoryList)}">
+					<button type="submit">更新確認</button>
+				</div>
+			</form>
+		</div>
+	</main>
 
 </body>
 
