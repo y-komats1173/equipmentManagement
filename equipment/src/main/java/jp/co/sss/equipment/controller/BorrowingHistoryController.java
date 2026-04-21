@@ -27,6 +27,10 @@ public class BorrowingHistoryController {
 	
 	@Autowired
 	EquipmentCommonService equipmentCommonService;
+	
+	//メール送信
+	@Autowired
+	MailController mailController;
 
 	/**
 	 * 履歴画面への遷移
@@ -57,6 +61,8 @@ public class BorrowingHistoryController {
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("form", form);
 		
+		//メール
+		mailController.returnOver();
 		
 		return "history/borrowingHistory";
 	}
