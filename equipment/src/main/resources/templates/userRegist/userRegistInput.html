@@ -32,13 +32,18 @@
 				</div>
 
 				<div class="form-row">
+					<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}" class="error-message"></div>
+					<label for="mail">メールアドレス</label>
+					<input type="text" id="mail" th:field="*{mail}">
+				</div>
+
+				<div class="form-row">
 					<div th:if="${#fields.hasErrors('auth')}" th:errors="*{auth}" class="error-message"></div>
 					<label for="auth">権限</label>
 					<select id="auth" th:field="*{auth}">
 						<option value="">選択してください</option>
-						<option th:each="auth : ${authList}"
-								th:value="${auth.authNo}"
-								th:text="${auth.authName}"></option>
+						<option th:each="auth : ${authList}" th:value="${auth.authNo}" th:text="${auth.authName}">
+						</option>
 					</select>
 				</div>
 
@@ -60,4 +65,5 @@
 		</div>
 	</main>
 </body>
+
 </html>
