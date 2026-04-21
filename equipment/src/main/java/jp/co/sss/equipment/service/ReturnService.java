@@ -2,11 +2,14 @@ package jp.co.sss.equipment.service;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sss.equipment.dto.DetailListViewDto;
+import jp.co.sss.equipment.entity.StaffData;
 import jp.co.sss.equipment.mapper.ReturnMapper;
 
 /**
@@ -17,15 +20,23 @@ import jp.co.sss.equipment.mapper.ReturnMapper;
 public class ReturnService {
 	@Autowired //DIの導入
 	ReturnMapper returnMapper; //DetailMapperの宣言（newの代わりにここで呼び出す）
+
+	//メール送信
+	@Autowired
+	MailService mailService;
+
+	@Autowired
+	HttpSession session;
+
 	/**
 	 * 返却画面に現在貸出中の備品を渡す
 	 * @param name
 	 * @return ReturnController
 	 */
-	public List<DetailListViewDto> returnFindView(String name){
+	public List<DetailListViewDto> returnFindView(String name) {
 		return returnMapper.returnFind(name);//マッパーの処理を返す
 	}
-	
+
 	/**
 	 * 返却時の処理
 	 */
@@ -33,13 +44,22 @@ public class ReturnService {
 	public void returnEquipment(List<Integer> returnList) {
 		//Listの数を取得
 		//返却処理(返却日、最終確認日の更新)
-		 int updateCount = returnMapper.stockDataUpdate(returnList);	
-		 if (updateCount != returnList.size()) {
-		        throw new IllegalStateException("他のブラウザで更新済み");
-		    }
+		int updateCount = returnMapper.stockDataUpdate(returnList);
+		if (updateCount != returnList.size()) {
+			throw new IllegalStateException("他のブラウザで更新済み");
+		}
 		//返却されたシリアルナンバーを貸出可能にする
-		for(Integer id : returnList) { //新規登録の為一件ずつforで回す
+		for (Integer id : returnList) { //新規登録の為一件ずつforで回す
 			returnMapper.insertRebornStock(id);
+		}
+
+		//返却時のメール送信処理
+		StaffData user = (StaffData) session.getAttribute("user");
+		if (user != null) {
+			mailService.sendMail(
+					user.getMail(),
+					"返却が完了しました",
+					"返却処理が完了しました");
 		}
 	}
 }
