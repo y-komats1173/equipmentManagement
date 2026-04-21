@@ -34,6 +34,13 @@
 				</div>
 
 				<div class="confirm-row">
+					<div class="confirm-label">メールアドレス</div>
+					<div class="confirm-value">
+						<span th:text="*{mail}"></span>
+					</div>
+				</div>
+
+				<div class="confirm-row">
 					<div class="confirm-label">パスワード</div>
 					<div class="confirm-value">
 						<span>********</span>
@@ -49,6 +56,7 @@
 
 				<input type="hidden" th:field="*{staffNo}">
 				<input type="hidden" th:field="*{name}">
+				<input type="hidden" th:field="*{mail}">
 				<input type="hidden" th:field="*{password}">
 				<input type="hidden" th:field="*{auth}">
 
@@ -56,10 +64,11 @@
 					<button type="submit">登録</button>
 				</div>
 			</form>
-			
+
 			<form th:action="@{/user/regist/input}" method="post" th:object="${userRegistForm}">
 				<input type="hidden" th:field="*{staffNo}">
 				<input type="hidden" th:field="*{name}">
+				<input type="hidden" th:field="*{mail}">
 				<input type="hidden" th:field="*{password}">
 				<input type="hidden" th:field="*{auth}">
 
@@ -70,4 +79,5 @@
 		</div>
 	</main>
 </body>
+
 </html>
