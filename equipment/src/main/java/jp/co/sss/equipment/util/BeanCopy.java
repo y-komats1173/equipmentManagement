@@ -58,12 +58,13 @@ public class BeanCopy {
 
 	/**
 	 * ユーザー情報
-	 * Formクラスからentityに値をコピー
+	 * Formクラスからentityに値をコピーs
 	 */
 	public static StaffData userCopyEntity(UserForm registform) {
 		StaffData entity = new StaffData();
 		entity.setStaffNo(registform.getStaffNo());
 		entity.setName(registform.getName());
+		entity.setMail(registform.getMail());
 		entity.setPassword(registform.getPassword());
 		entity.setAuthNo(registform.getAuth());
 		return entity;
