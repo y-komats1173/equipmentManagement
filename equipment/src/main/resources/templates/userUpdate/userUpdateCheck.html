@@ -34,6 +34,13 @@
 				</div>
 
 				<div class="confirm-row">
+					<div class="confirm-label">メールアドレス</div>
+					<div class="confirm-value">
+						<span th:text="*{mail}"></span>
+					</div>
+				</div>
+
+				<div class="confirm-row">
 					<div class="confirm-label">権限</div>
 					<div class="confirm-value">
 						<span th:text="${authMaster.authName}"></span>
@@ -42,6 +49,7 @@
 
 				<input type="hidden" th:field="*{staffNo}">
 				<input type="hidden" th:field="*{name}">
+				<input type="hidden" th:field="*{mail}">
 				<input type="hidden" th:field="*{auth}">
 				<input type="hidden" th:field="*{oldStaffNo}">
 				<input type="hidden" th:field="*{password}">
@@ -55,6 +63,7 @@
 			<form th:action="@{/user/update/input}" method="post" th:object="${userForm}">
 				<input type="hidden" th:field="*{staffNo}">
 				<input type="hidden" th:field="*{name}">
+				<input type="hidden" th:field="*{mail}">
 				<input type="hidden" th:field="*{auth}">
 				<input type="hidden" th:field="*{oldStaffNo}">
 				<input type="hidden" th:field="*{password}">
@@ -67,4 +76,5 @@
 		</div>
 	</main>
 </body>
+
 </html>
