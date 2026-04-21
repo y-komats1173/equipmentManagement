@@ -110,6 +110,7 @@ public class StaffCommonService {
 		StaffViewDto dto = new StaffViewDto();
 		dto.setStaffNo(staff.getStaffNo());
 		dto.setName(staff.getName());
+		dto.setMail(staff.getMail());
 		dto.setAuthNo(staff.getAuthNo());
 		
 		//権限名を取得してDTOにセット
