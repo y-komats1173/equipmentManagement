@@ -14,6 +14,9 @@ public class StaffViewDto {
 	/**名前*/
 	private String name;
 	
+	/**メールアドレス*/
+	private String mail;
+	
 	/**権限id*/
 	private Integer authNo;
 	
