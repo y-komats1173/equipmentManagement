@@ -27,6 +27,12 @@
 		</tr>
 
 		<tr>
+
+			<th>メールアドレス</th>
+			<td th:text="${staff.mail}"></td>
+		</tr>
+
+		<tr>
 			<th>権限</th>
 			<td th:text="${staff.authName}"></td>
 		</tr>
@@ -38,7 +44,7 @@
 		</a>
 
 		<a th:if="${session.user.staffNo != staff.staffNo}"
-		   th:href="@{/user/delete/view/{staffNo}(staffNo=${staff.staffNo})}">
+			th:href="@{/user/delete/view/{staffNo}(staffNo=${staff.staffNo})}">
 			<button type="button" class="delete-btn">削除</button>
 		</a>
 
