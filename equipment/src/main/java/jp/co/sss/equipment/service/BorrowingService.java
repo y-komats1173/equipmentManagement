@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sss.equipment.dto.BorrowingValidationResult;
 import jp.co.sss.equipment.dto.DetailListViewDto;
+import jp.co.sss.equipment.entity.StaffData;
 import jp.co.sss.equipment.mapper.BorrowingMapper;
 import jp.co.sss.equipment.util.DateUtil;
 
@@ -24,6 +27,13 @@ import jp.co.sss.equipment.util.DateUtil;
 public class BorrowingService {
 	@Autowired
 	BorrowingMapper borrowingMapper;
+	
+	//メール送信
+	@Autowired
+	MailService mailService;
+
+	@Autowired
+	HttpSession session;
 
 	/**
 	 * 貸出画面に現在貸出可能（手元にある）の備品を渡す
@@ -161,6 +171,14 @@ public class BorrowingService {
 					throw new IllegalStateException("他のブラウザで更新済み");
 				}
 			}
+		}
+		//貸出時のメール送信処理
+		StaffData user = (StaffData) session.getAttribute("user");
+		if (user != null) {
+			mailService.sendMail(
+					user.getMail(),
+					"貸出が完了しました",
+					"貸出処理が完了しました");
 		}
 	}
 }
