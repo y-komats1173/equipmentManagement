@@ -9,12 +9,14 @@
 		INSERT INTO staff_data (
 		staff_no,
 		name,
+		mail,
 		password,
 		auth_no,
 		del
 		) VALUES (
 		#{staffNo},
 		#{name},
+		#{mail},
 		#{password},
 		#{authNo},
 		#{del}
