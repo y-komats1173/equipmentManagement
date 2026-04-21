@@ -20,6 +20,9 @@ public class UserForm {
     @NotBlank(message = "社員名を入力してください")
     @Size(max = 30, message = "社員名は30文字以内で入力してください")
     private String name;
+    
+    /**メールアドレス*/
+    private String mail;
 
     /** 権限 */
     @NotNull(message = "権限を選択してください")
