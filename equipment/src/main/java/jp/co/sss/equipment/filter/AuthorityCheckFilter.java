@@ -51,6 +51,8 @@ public class AuthorityCheckFilter extends HttpFilter {
 		boolean myUpdateCheckUrl = path.equals("/user/update/check");
 		boolean myUpdateCompleteUrl = path.equals("/user/update/complete");
 
+		
+
 		boolean isMyUserUrl = myDetailUrl || myUpdateInputUrl || myUpdateCheckUrl || myUpdateCompleteUrl;
 
 
@@ -58,6 +60,13 @@ public class AuthorityCheckFilter extends HttpFilter {
 		boolean isAdminUrl = path.startsWith("/equipment/regist") ||
 				path.startsWith("/equipment/update") ||
 				path.startsWith("/equipment/delete") ||
+				
+				/*
+				 * メール送信テスト
+				 * テスト
+				 */
+				path.startsWith("mail/test")||
+				
 				(path.startsWith("/user") && !isMyUserUrl);
 
 
