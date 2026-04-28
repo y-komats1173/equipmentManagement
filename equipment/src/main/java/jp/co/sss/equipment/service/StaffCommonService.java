@@ -69,6 +69,21 @@ public class StaffCommonService {
 	}
 
 	/**
+	 * アドレスの重複チェック
+	 */
+	public boolean addressCheck(String address) {
+		//ユーザーの取得
+		List<StaffData> staffData = staffCommonMapper.allIdFind();
+		//idの一致検索
+		for (StaffData staff : staffData) {
+			if (staff.getMail().equals(address)) {
+				return true; // 重複あり
+			}
+		}
+		return false; // 重複なし
+	}
+
+	/**
 	 * ユーザー情報をDTOにコピーして表示（一覧）
 	 */
 	public List<StaffViewDto> staffViewList() {
@@ -97,7 +112,7 @@ public class StaffCommonService {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * ユーザー情報をDTOにコピーして表示（詳細）
 	 */
@@ -105,14 +120,14 @@ public class StaffCommonService {
 		//スタッフの個別情報を取得
 		StaffData staff = staffCommonMapper.staffFindIndividual(staffNo);
 		List<AuthMaster> authList = staffCommonMapper.authFind();
-		
+
 		//スタッフデータをDTOにコピー
 		StaffViewDto dto = new StaffViewDto();
 		dto.setStaffNo(staff.getStaffNo());
 		dto.setName(staff.getName());
 		dto.setMail(staff.getMail());
 		dto.setAuthNo(staff.getAuthNo());
-		
+
 		//権限名を取得してDTOにセット
 		for (AuthMaster auth : authList) {
 			if (staff.getAuthNo().equals(auth.getAuthNo())) {
@@ -123,13 +138,13 @@ public class StaffCommonService {
 
 		return dto;
 	}
-	
+
 	/**
 	 * ID変更時に重複しているか判定
 	 * @return 重複していたらtrue
 	 */
 	public boolean isDuplicateStaffNo(Integer oldStaffNo, Integer newStaffNo) {
-		
+
 		if (oldStaffNo == null || newStaffNo == null) {
 			return false;
 		}
