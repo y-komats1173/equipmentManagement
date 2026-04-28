@@ -176,6 +176,7 @@ public class BorrowingService {
 		StaffData user = (StaffData) session.getAttribute("user");
 		if (user != null) {
 			mailService.sendMail(
+					"******@bg.co.jp",
 					user.getMail(),
 					"貸出が完了しました",
 					"貸出処理が完了しました");
