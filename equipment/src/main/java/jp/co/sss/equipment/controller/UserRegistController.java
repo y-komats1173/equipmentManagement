@@ -76,6 +76,12 @@ public class UserRegistController {
 			return "userRegist/userRegistInput";
 		}
 		
+		//アドレスチェック
+		if (staffCommonService.addressCheck(registform.getMail())) {
+			result.rejectValue("staffNo", null, "このアドレスはすでに使用されています");
+			return "userRegist/userRegistInput";
+		}
+		
 		
 		//権限IDから権限情報を取得
 		AuthMaster authMaster = null;
