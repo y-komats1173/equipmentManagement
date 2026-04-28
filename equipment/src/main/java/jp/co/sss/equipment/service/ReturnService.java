@@ -57,6 +57,7 @@ public class ReturnService {
 		StaffData user = (StaffData) session.getAttribute("user");
 		if (user != null) {
 			mailService.sendMail(
+					"******@bg.co.jp",
 					user.getMail(),
 					"返却が完了しました",
 					"返却処理が完了しました");
