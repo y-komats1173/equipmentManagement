@@ -15,7 +15,7 @@ public class OtpAuth {
 	private String staffNo;
 	
 	/** OPTのハッシュ値 */
-	private String optHash;
+	private String otpHash;
 	
 	/** 有効期限 */
 	private LocalDateTime expireAt;
