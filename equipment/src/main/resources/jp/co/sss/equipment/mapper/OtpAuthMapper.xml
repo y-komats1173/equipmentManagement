@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.sss.equipment.mapper.OtpAuthMapper">
+
+    <!-- 取得 -->
+    <select id="findByStaffNo" resultType="jp.co.sss.equipment.entity.OtpAuth">
+        SELECT *
+        FROM otp_auth
+        WHERE staff_no = #{staffNo}
+    </select>
+    
+
+    <!-- 登録 -->
+    <insert id="insert">
+        INSERT INTO otp_auth (
+            staff_no,
+            otp_hash,
+            expire_at,
+            attempt_count,
+            created_at,
+            updated_at
+        ) VALUES (
+            #{staffNo},
+            #{otpHash},
+            #{expireAt},
+            #{attemptCount},
+            NOW(),
+            NOW()
+        )
+    </insert>
+    
+
+    <!-- 更新（上書き） -->
+    <update id="update">
+        UPDATE otp_auth
+        SET
+            otp_hash = #{otpHash},
+            expire_at = #{expireAt},
+            attempt_count = 0,
+            updated_at = NOW()
+        WHERE staff_no = #{staffNo}
+    </update>
+
+
+    <!-- 削除 -->
+    <delete id="delete">
+        DELETE FROM otp_auth
+        WHERE staff_no = #{staffNo}
+    </delete>
+
+
+    <!-- 試行回数 +1 -->
+    <update id="incrementAttempt">
+        UPDATE otp_auth
+        SET attempt_count = attempt_count + 1
+        WHERE staff_no = #{staffNo}
+    </update>
+
+</mapper>
