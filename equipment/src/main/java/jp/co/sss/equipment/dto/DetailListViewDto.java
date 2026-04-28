@@ -68,4 +68,7 @@ public class DetailListViewDto {
 	
 	/**削除*/
 	private Integer delFlag;
+	
+	/**メールアドレス*/
+	private String mail;
 }
