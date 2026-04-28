@@ -92,10 +92,16 @@ public class UserUpdateController {
 
 		// ID変更チェック
 		if (!updateForm.getOldStaffNo().equals(updateForm.getStaffNo())) {
-		    result.rejectValue("staffNo", null, "IDは変更できません");
-		    return "userUpdate/userUpdateInput";
+			result.rejectValue("staffNo", null, "IDは変更できません");
+			return "userUpdate/userUpdateInput";
 		}
-		
+
+		//アドレスチェック
+		if (staffCommonService.addressCheck(updateForm.getMail())) {
+			result.rejectValue("staffNo", null, "このアドレスはすでに使用されています");
+			return "userRegist/userRegistInput";
+		}
+
 		// ログインユーザー取得
 		StaffData loginUser = (StaffData) session.getAttribute("user");
 
