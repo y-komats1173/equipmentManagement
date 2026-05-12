@@ -41,15 +41,8 @@ public class EquipmentSearchController {
 	    // 最初は全件
 	    List<EquipmentSearchDto> resultList = equipmentCommonService.equipmentAllFind();
 
-	    // 検索条件が1つでも入力されているか判定
-	    boolean hasCondition = (form.getStockCode() != null && !form.getStockCode().isBlank()) ||
-	            (form.getName() != null && !form.getName().isBlank()) ||
-	            form.getStockType() != null ||
-	            (form.getStatus() != null && !form.getStatus().isBlank()) ||
-	            form.getOwnershipType() != null;
-
 	    // 条件がある場合のみ検索結果で上書き
-	    if (hasCondition) {
+	    if (equipmentSearchService.hasSearchCondition(form)) {
 	        resultList = equipmentSearchService.search(form);
 	    }
 
