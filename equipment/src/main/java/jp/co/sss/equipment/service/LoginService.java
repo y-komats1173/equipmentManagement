@@ -1,6 +1,7 @@
 package jp.co.sss.equipment.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.co.sss.equipment.entity.StaffData;
@@ -17,6 +18,9 @@ public class LoginService {
 	@Autowired
 	private EmployeeMapper employMapper;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	/**
 	 * ログイン処理
 	 * @param loginForm
@@ -24,12 +28,30 @@ public class LoginService {
 	 */
 	public LoginResult excute(LoginForm loginForm) {
 
-		StaffData staffData = employMapper.findByEmpIdAndEmpPass(loginForm.getEmpId(), loginForm.getEmpPass());
+		//社員IDだけでユーザー情報を取得
+		StaffData staffData =
+			    employMapper.findByEmpId(loginForm.getEmpId());
 
+		//社員IDが一致しない場合
 		if (staffData == null) {
+			return LoginResult.failLogin(
+					Constant.LOGIN_ERR_MSG,
+					LoginErrorType.USER_NOT_FOUND);
+		}
+		
+		//入力されたパスワードとDBのハッシュ化済みパスワードを照合する
+		boolean passwordMatch = passwordEncoder.matches(
+				loginForm.getEmpPass(),
+				staffData.getPassword()
+				);
+		
+		//パスワードが一致しない場合
+		if(!passwordMatch) {
 			return LoginResult.failLogin(Constant.LOGIN_ERR_MSG,
 					LoginErrorType.USER_NOT_FOUND);
 		}
+		
+		//社員ID・パスが正しい場合
 		return LoginResult.succeedLogin(staffData);
 	}
 }
