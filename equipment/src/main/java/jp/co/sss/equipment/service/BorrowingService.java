@@ -2,6 +2,7 @@ package jp.co.sss.equipment.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ import jp.co.sss.equipment.util.DateUtil;
 public class BorrowingService {
 	@Autowired
 	BorrowingMapper borrowingMapper;
-	
+
 	//メール送信
 	@Autowired
 	MailService mailService;
@@ -181,5 +182,24 @@ public class BorrowingService {
 					"貸出が完了しました",
 					"貸出処理が完了しました");
 		}
+	}
+
+	/**
+	 * キー洗浄す補助メソッド[]をとる
+	 * @RequestParam Map<String, String> allParamsで受け取ったパラメータの中から、特定のプレフィックスを持つキーを抽出し、ID部分だけをキーとして新しいマップを作成するため
+	 */
+	public Map<String, String> extractIdMap(Map<String, String> params, String prefix) {
+		// 結果を格納するマップ
+		Map<String, String> resultMap = new HashMap<>();
+		// 全てのパラメータをループ
+		params.forEach((k, v) -> {
+			// prefix + "[" で始まるキーを探す
+			if (k.startsWith(prefix + "[")) {
+				// キーからID部分を抽出して新しいマップに追加
+				String id = k.substring(prefix.length() + 1, k.length() - 1);
+				resultMap.put(id, v);
+			}
+		});
+		return resultMap;
 	}
 }
