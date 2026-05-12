@@ -87,6 +87,10 @@ public class UserUpdateController {
 
 		// 入力エラー
 		if (result.hasErrors()) {
+			// 権限リスト再設定
+			model.addAttribute(
+					"authList",
+					staffCommonService.authFind());
 			return "userUpdate/userUpdateInput";
 		}
 
@@ -96,10 +100,15 @@ public class UserUpdateController {
 			return "userUpdate/userUpdateInput";
 		}
 
-		//アドレスチェック
-		if (staffCommonService.addressCheck(updateForm.getMail())) {
-			result.rejectValue("staffNo", null, "このアドレスはすでに使用されています");
-			return "userRegist/userRegistInput";
+		// メールアドレス重複チェック
+		if (userUpdateService.mailDuplicateCheck(updateForm)) {
+
+			result.rejectValue(
+					"mail",
+					null,
+					"このアドレスはすでに使用されています");
+
+			return "userUpdate/userUpdateInput";
 		}
 
 		// ログインユーザー取得
