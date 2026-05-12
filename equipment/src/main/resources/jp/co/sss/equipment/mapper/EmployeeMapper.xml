@@ -9,8 +9,30 @@
 		SELECT *
 		FROM staff_data
 		WHERE staff_no = #{empId}
-		AND password = #{empPass}
+		AND
+		password = #{empPass}
 		AND del = false
+	</select>
+
+	<!-- ハッシュ化したパスワード検索 -->
+	<!-- 社員IDでユーザー検索 -->
+	<select id="findByEmpId"
+		resultType="jp.co.sss.equipment.entity.StaffData">
+
+		SELECT
+		staff_no,
+		name,
+		password,
+		mail,
+		auth_no,
+		del
+		FROM
+		staff_data
+		WHERE
+		staff_no = #{empId}
+		AND
+		del = 0
+
 	</select>
 
 </mapper>
