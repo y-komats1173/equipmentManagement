@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sss.equipment.dto.EquipmentSearchDto;
+import jp.co.sss.equipment.form.EquipmentSearchForm;
 import jp.co.sss.equipment.mapper.InventoryMapper;
 
 /**
@@ -33,5 +34,16 @@ public class InventoryService {
             }
             inventoryMapper.updateConfirmDate(dto.getStockCode());
         }
+    }
+    
+    /**
+     * 検索条件が1つでも入力されているか判定
+     */
+    public boolean hasCondition(EquipmentSearchForm form) {
+    	return (form.getStockCode() != null && !form.getStockCode().isBlank()) ||
+        (form.getName() != null && !form.getName().isBlank()) ||
+        form.getStockType() != null ||
+        (form.getStatus() != null && !form.getStatus().isBlank()) ||
+        form.getOwnershipType() != null;
     }
 }
