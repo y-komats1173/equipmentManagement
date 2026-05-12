@@ -109,6 +109,5 @@ public class OtpAuthService {
 		//認証失敗時は回数を増やす
 		otpAuthMapper.incrementAttempt(integer);
 		return false;
-	}
-	
+	}	
 }
