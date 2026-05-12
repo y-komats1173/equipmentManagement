@@ -1,7 +1,6 @@
 package jp.co.sss.equipment.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import jp.co.sss.equipment.entity.StaffData;
 /**
@@ -12,14 +11,6 @@ import jp.co.sss.equipment.entity.StaffData;
 public interface EmployeeMapper {
 	/**
 	 * ログインのためのID、パスワード検索
-	 * 
-	 * @param empId
-	 * @param empPass
-	 * @return ログインユーザーエンティティ
-	 */
-	StaffData findByEmpIdAndEmpPass(@Param(value = "empId") Integer empId, @Param(value = "empPass") String empPass);
-
-	/**
 	 * ハッシュ化したパスワード検索
 	 */
 	StaffData findByEmpId(Integer empId);
