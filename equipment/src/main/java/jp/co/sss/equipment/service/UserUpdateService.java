@@ -1,7 +1,9 @@
 package jp.co.sss.equipment.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sss.equipment.dto.PasswordCheckDto;
 import jp.co.sss.equipment.entity.StaffData;
@@ -21,16 +23,29 @@ public class UserUpdateService {
 	@Autowired
 	StaffCommonMapper staffCommonMapper;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	StaffCommonService staffCommonService;
+
 	/**
 	 * 更新処理
-	 * @param updateForm
 	 */
+	@Transactional
 	public int userUpdate(UserForm updateForm) {
 
-		// 新しいパスワードが未入力なら、DBの既存パスワードを保持する
+		// 新しいパスワードが未入力なら、DBの既存ハッシュを保持する
 		if (updateForm.getPassword() == null || updateForm.getPassword().isBlank()) {
+
 			StaffData dbUser = staffCommonMapper.staffFindIndividual(updateForm.getOldStaffNo());
 			updateForm.setPassword(dbUser.getPassword());
+
+		} else {
+
+			// 更新確定時だけ新しいパスワードをハッシュ化する
+			String hashPassword = passwordEncoder.encode(updateForm.getPassword());
+			updateForm.setPassword(hashPassword);
 		}
 
 		return userUpdateMapper.userUpdate(updateForm);
@@ -38,9 +53,6 @@ public class UserUpdateService {
 
 	/**
 	 * パスワードチェック
-	 * @param form
-	 * @param loginUser
-	 * @return
 	 */
 	public PasswordCheckDto checkPasswordUpdate(UserForm form, StaffData loginUser) {
 
@@ -63,11 +75,15 @@ public class UserUpdateService {
 			return dto;
 		}
 
-		// DBのパスワード取得
+		// DBのハッシュ済みパスワードを取得
 		StaffData dbUser = staffCommonMapper.staffFindIndividual(form.getOldStaffNo());
 
-		// 現在のパスワード不一致
-		if (!dbUser.getPassword().equals(form.getCurrentPassword())) {
+		// 現在のパスワード照合
+		boolean passwordMatch = passwordEncoder.matches(
+				form.getCurrentPassword(),
+				dbUser.getPassword());
+
+		if (!passwordMatch) {
 			dto.setCurrentPasswordInvalid(true);
 		}
 
@@ -84,4 +100,24 @@ public class UserUpdateService {
 		return dto;
 	}
 
+	/**
+	 * メールアドレス重複チェック
+	 *
+	 * 自分自身のアドレスならOK
+	 * 他ユーザー使用中ならtrue
+	 */
+	public boolean mailDuplicateCheck(UserForm form) {
+
+		// DBの自分情報取得
+		StaffData dbUser = staffCommonMapper.staffFindIndividual(form.getOldStaffNo());
+
+		// メール変更なし
+		if (dbUser.getMail().equals(form.getMail())) {
+			return false;
+		}
+
+		// 他ユーザー重複チェック
+		return staffCommonService.addressCheck(
+				form.getMail());
+	}
 }
