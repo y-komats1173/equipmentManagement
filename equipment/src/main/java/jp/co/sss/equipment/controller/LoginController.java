@@ -42,7 +42,7 @@ public class LoginController {
 	 */
 	@GetMapping("/")
 	public String loginForm(Model model) {
-		session.invalidate();
+		//		session.invalidate();
 		model.addAttribute("loginForm", new LoginForm());
 		return "login";
 	}
@@ -53,12 +53,13 @@ public class LoginController {
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult result, HttpSession session,
 			Model model) {
-		
+
 		//エラーチェック
 		if (result.hasErrors()) {
 			return "login";
 		}
 
+		//ログイン処理
 		LoginResult loginResult = loginService.excute(loginForm);
 
 		if (loginResult.isLogin()) {
@@ -90,7 +91,7 @@ public class LoginController {
 	 * ログアウト処理
 	 * @return
 	 */
-	@GetMapping("/logout")
+	@GetMapping("/user/logout")
 	public String logout(HttpSession session) {
 		if (session != null) {
 			session.invalidate();
@@ -106,9 +107,14 @@ public class LoginController {
 		return "oneTime";
 	}
 
+	/*
+	 * ワンタイムパスコード確認
+	 */
 	@PostMapping("/otpCheck")
 	public String otpCheck(String otp, HttpSession session, Model model) {
-		var user = (StaffData) session.getAttribute("otpUser");
+
+		StaffData user = (StaffData) session.getAttribute("otpUser");
+
 		if (user == null) {
 			return "redirect:/";
 		}
@@ -118,13 +124,24 @@ public class LoginController {
 				otp);
 
 		if (result) {
+
 			// ログイン確定
 			session.setAttribute("user", user);
+
+			// OTP用ユーザー削除
 			session.removeAttribute("otpUser");
-			return "redirect:/index";
-		} else {
-			model.addAttribute("error", "コードが違います");
-			return "oneTime";
+
+			// 権限判定
+			if (user.getAuthNo() == 99) {
+				// 一般ユーザー
+				return "redirect:/index";
+			}
+
+			// 管理者
+			return "redirect:/topMenu";
 		}
+
+		model.addAttribute("error", "コードが違います");
+		return "oneTime";
 	}
 }
