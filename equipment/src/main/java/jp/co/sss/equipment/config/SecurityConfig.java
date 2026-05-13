@@ -20,13 +20,11 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 						.anyRequest().permitAll() // 全部許可
 				)
-
 				.formLogin(form -> form.disable()); // ログイン画面OFF
 		return http.build();
 	}
 	
 	/**
-
 	 * パスワードのハッシュ化・照合に使う部品
 	 *
 	 * LoginServiceなどから共通利用できるインスタンスを
