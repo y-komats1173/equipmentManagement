@@ -36,6 +36,7 @@ public class HeaderNotificationAdvice {
 		if (user == null) {
 			return new ArrayList<>();
 		}
+		//期限切れ取得
 		List<LeaseListDto> list = leaseService.findLeaseAlerts(user);
 		System.out.println("====通知一覧====");
 		for (LeaseListDto dto : list) {
