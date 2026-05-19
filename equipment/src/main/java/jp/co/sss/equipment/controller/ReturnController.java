@@ -39,6 +39,21 @@ public class ReturnController {
 		List<DetailListViewDto> detailName = indexService.detailFind(name);//貸出中の備品を取得する
 		model.addAttribute("detailName", detailName.get(0));//備品名をひとつ取得し、HTMLに表示させる
 		model.addAttribute("itemDetail", returnList);//貸出中の備品をHTMLのテーブルに表示させる
+		
+		System.out.println("==========返却画面==========");
+		System.out.println("【" + detailName + "】");
+		for (DetailListViewDto dto : returnList) {
+		    System.out.printf(
+		        "シリアルナンバー：%s / 使用者：%s / 貸出開始日：%s / 返却予定日：%s / 備考：%s / 返却：%s%n",
+		        dto.getParentStockCode(),
+		        dto.getStaffName(),
+		        dto.getStartDate(),
+		        dto.getLimitDate(),
+		        dto.getRemarks(),
+		        dto.getRentFlg()
+		    );
+		}
+		
 		return "return/returnView"; //templatesフォルダーのhtmlを表示させる
 	}
 
