@@ -1,10 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/equipment/leaseListLayout.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<title>リース一覧</title>
 </head>
+
 <body>
+	<div th:replace="~{common/layout :: header}"></div>
+
+	<form th:action="@{/leaseList}" th:object="${searchForm}" method="get">
+
+		<label>リース返却日</label>
+		<select th:field="*{sortType}">
+			<option value="near">近い順</option>
+			<option value="far">遠い順</option>
+		</select>
+
+		<label>カテゴリ</label>
+		<select th:field="*{categoryId}">
+			<option value="">すべて</option>
+
+			<option th:each="category : ${categoryList}" th:value="${category.stockType}" th:text="${category.name}">
+			</option>
+		</select>
+
+		<label>状態</label>
+		<select th:field="*{status}">
+			<option value="">すべて</option>
+			<option value="在庫">在庫</option>
+			<option value="貸出中">貸出中</option>
+		</select>
+
+		<button type="submit">検索</button>
+
+	</form>
+
+	<div class="table-area">
+		<table>
+			<tr>
+				<th>シリアル</th>
+				<th>リース返却日</th>
+				<th>備品名</th>
+				<th>カテゴリ</th>
+				<th>状態</th>
+				<th>返却期限</th>
+				<th>使用者</th>
+			</tr>
+
+			<tr th:each="item : ${leaseList}">
+				<td th:class="${item.rowClass}" th:text="${item.stockCode}"></td>
+				<td th:class="${item.rowClass}" th:text="${item.leaseReturnDate}"></td>
+				<td th:class="${item.rowClass}" th:text="${item.productName}"></td>
+				<td th:class="${item.rowClass}" th:text="${item.categoryName}"></td>
+				<td th:class="${item.rowClass}" th:text="${item.statusName}"></td>
+				<td th:class="${item.rowClass}" th:text="${item.returnDate}"></td>
+				<td th:class="${item.rowClass}" th:text="${item.staffName}"></td>
+			</tr>
+
+		</table>
+	</div>
+
+	<a th:href="@{/topMenu}">
+		<button type="button">戻る</button>
+	</a>
 
 </body>
+
 </html>
