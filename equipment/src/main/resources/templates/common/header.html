@@ -29,16 +29,83 @@
 				貸出履歴
 			</a>
 
+			<!-- 通知 -->
+			<div class="header-alert" th:if="${session.user != null}">
+
+				<input type="checkbox" id="alertToggle" class="alert-toggle">
+
+				<label for="alertToggle" class="alert-button">
+					🔔
+					<span class="alert-badge"
+						  th:if="${alertCount > 0}"
+						  th:text="${alertCount}">
+					</span>
+				</label>
+
+				<div class="alert-dropdown">
+
+					<p class="alert-title">通知一覧</p>
+
+					<div th:if="${alertCount == 0}" class="alert-empty">
+						通知はありません
+					</div>
+
+					<div th:each="item : ${alertList}" class="alert-item">
+						<div>
+							<strong th:text="${item.alertType}"></strong>
+						</div>
+
+						<div th:text="${item.productName}"></div>
+						<div>
+							<span th:text="${item.stockCode}"></span>
+						</div>
+					</div>
+					<a th:href="@{/overdue}" class="alert-link">
+											遅延リスト
+										</a>
+					<a th:href="@{/leaseList}" class="alert-link">
+						リース一覧へ
+					</a>
+				</div>
+			</div>
+
 			<div class="nav-right" th:if="${session.user != null}">
-				<a th:href="@{/user/detail/{staffNo}(staffNo=${session.user.staffNo})}">
+				<a th:href="@{/user/detail/{staffNo}(staffNo=${session.user.staffNo})}"
+				   class="nav-link">
 					<span th:text="${session.user.name}"></span>さん
-					<a th:href="@{/user/logout}" class="nav-link">ログアウト</a>
+				</a>
+				<a th:href="@{/user/logout}" class="nav-link">
+					ログアウト
+				</a>
+
 			</div>
 
 		</nav>
 	</header>
 
+	<script>
 
+		function toggleAlertList() {
+			console.log("通知クリック");
+			const alertList =
+				document.getElementById("alertList");
+
+			alertList.classList.toggle("show");
+		}
+		
+		document.addEventListener("click", function(event) {
+
+				const alertArea =
+					document.querySelector(".header-alert");
+				const alertToggle =
+					document.getElementById("alertToggle");
+				/* 通知エリア外クリック */
+				if (!alertArea.contains(event.target)) {
+					alertToggle.checked = false;
+				}
+			});
+
+	</script>
 
 </body>
 
