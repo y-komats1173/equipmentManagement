@@ -62,6 +62,23 @@ public class BorrowingHistoryController {
 		//メール
 		mailController.returnOver();
 		
+		System.out.println("==========貸出返却履歴一覧==========");
+
+		for (BorrowingHistoryDto dto : historyList) {
+		    System.out.printf(
+		        "シリアル：%s / カテゴリ：%s / 製品名：%s / 使用者：%s / 貸出日：%s / 返却日：%s / 返却予定日：%s / 分類：%s / 削除：%s%n",
+		        dto.getStockCode(),
+		        dto.getCategoryName(),
+		        dto.getProductName(),
+		        dto.getStaffName(),
+		        dto.getReturnDate(),
+		        dto.getReturnDate(),
+		        dto.getLimitDate(),
+		        dto.getOwnershipType(),
+		        dto.getDeletedLabel()
+		    );
+		}
+		
 		return "history/borrowingHistory";
 	}
 }
