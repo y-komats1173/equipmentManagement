@@ -62,6 +62,7 @@ public class AuthorityCheckFilter extends HttpFilter {
 				path.startsWith("/equipment/update") ||
 				path.startsWith("/equipment/delete") ||
 				path.startsWith("/overdue") ||
+				path.startsWith("/leaseList") ||
 				/*
 				 * メール送信テスト
 				 * テスト
