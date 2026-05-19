@@ -63,3 +63,76 @@ header {
     align-items: center;
     gap: 25px;
 }
+
+.header-alert {
+	position: relative;
+}
+
+.alert-button {
+	position: relative;
+	background: transparent;
+	border: none;
+	font-size: 22px;
+	cursor: pointer;
+	color: white;
+}
+
+.alert-badge {
+	position: absolute;
+	top: -8px;
+	right: -10px;
+	background-color: red;
+	color: white;
+	border-radius: 50%;
+	padding: 2px 6px;
+	font-size: 12px;
+}
+
+.alert-dropdown {
+	display: none;
+	position: absolute;
+	top: 40px;
+	right: 0;
+	width: 280px;
+	max-height: 320px;
+	overflow-y: auto;
+	background-color: white;
+	color: black;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	z-index: 9999;
+}
+
+.alert-dropdown.show {
+	display: block;
+}
+
+.alert-title {
+	font-weight: bold;
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+	margin: 0;
+}
+
+.alert-item {
+	padding: 10px;
+	border-bottom: 1px solid #eee;
+	font-size: 14px;
+}
+
+.alert-link {
+	display: block;
+	padding: 10px;
+	text-align: center;
+	color: #2563eb;
+	font-weight: bold;
+}
+
+.alert-toggle {
+	display: none;
+}
+
+.alert-toggle:checked ~ .alert-dropdown {
+	display: block;
+}
