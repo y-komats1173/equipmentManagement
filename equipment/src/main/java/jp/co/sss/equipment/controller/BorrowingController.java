@@ -55,6 +55,21 @@ public class BorrowingController {
 		model.addAttribute("staffName", staffList); //使用者名の取得
 		model.addAttribute("today", DateUtil.getToday().toString()); //今日の日付
 		model.addAttribute("defaultLimit", DateUtil.getDefaultLimitDate().toString()); //デフォルト返却予定日
+		
+		System.out.println("==========貸出画面==========");
+		System.out.println("【" + name + "】");
+		for (DetailListViewDto dto : detailNameList) {
+		    System.out.printf(
+		        "シリアルナンバー：%s / 使用者：%s / 貸出開始日：%s / 返却予定日：%s / 備考：%s / 貸出：%s%n",
+		        dto.getParentStockCode(),
+		        dto.getStaffName(),
+		        dto.getStartDate(),
+		        dto.getLimitDate(),
+		        dto.getRemarks(),
+		        dto.getRentFlg()
+		    );
+		}
+		
 		return "borrowing/borrowingView";
 	}
 
