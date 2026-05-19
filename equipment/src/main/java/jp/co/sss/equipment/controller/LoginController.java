@@ -96,6 +96,7 @@ public class LoginController {
 		if (session != null) {
 			session.invalidate();
 		}
+		System.out.println("ログアウト");
 		return "redirect:/";
 	}
 
